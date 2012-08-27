@@ -1,12 +1,14 @@
 {
   "api_wrapper": "CodingPride\\Source\\GithubApiWrapper",
-  "username": "fiunchinho",
-  "repository": "PHPConfig",
+  "username": "twitter",
+  "repository": "bootstrap",
+  "login": "",
+  "password": "",
   "badges":
   {
       "BraveCommit": {
           "name": "BraveCommit",
-          "description": "Commiting after 16h",
+          "description": "You've made a commit after 16 AM!",
           "conditions": [
               "LateCommitCondition",
               "PhpFileExtensionCondition"
@@ -14,28 +16,28 @@
       },
       "EarlyBirdCommit": {
           "name": "EarlyBirdCommit",
-          "description": "Commiting after 16h",
+          "description": "You've made a commit before 10 AM!",
           "conditions": [
               "EarlyCommitCondition"
           ]
       },
       "PhpContributor": {
           "name": "PhpContributor",
-          "description": "Commiting after 16h",
+          "description": "You've made a commit with Javascript files.",
           "conditions": [
               "PhpFileExtensionCondition"
           ]
       },
       "JsContributor": {
           "name": "JsContributor",
-          "description": "Commiting after 16h",
+          "description": "You've made a commit with Javascript files.",
           "conditions": [
               "JsFileExtensionCondition"
           ]
       },
       "Handyman": {
           "name": "Handyman",
-          "description": "Commiting after 16h",
+          "description": "You've made a commit that includes Javascript and PHP files!",
           "conditions": [
               "PhpFileExtensionCondition",
               "JsFileExtensionCondition"
