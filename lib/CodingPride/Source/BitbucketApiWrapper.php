@@ -35,10 +35,9 @@ class BitbucketApiWrapper extends AbstractApiWrapper
 
 	protected function setUpHttp()
 	{
-		//$http = new \CodingPride\Http();
 		$this->http->setContext(
 			array(
-				'Authorization: Basic Zml1bmNoaW5obzpXQzNtNG40ZzNyIQ=='
+				'Authorization: Basic ' . base64_encode( $this->config['login'] . ':' . $this->config['password'] )
 			)
 		);
 		return $this->http;

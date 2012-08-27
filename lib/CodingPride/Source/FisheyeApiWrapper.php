@@ -115,7 +115,7 @@ class FisheyeApiWrapper extends AbstractApiWrapper
 		$this->http->setContext(
 			array(
 				//'Accept: application/json',
-				'Authorization: Basic am9zZW1hbnVlbC5hcm1lc3RvOldDM200bjRnM3Ih'
+				'Authorization: Basic ' . base64_encode( $this->config['login'] . ':' . $this->config['password'] )
 			)
 		);
 		return $this->http;
