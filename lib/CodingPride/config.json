@@ -1,0 +1,45 @@
+{
+  "api_wrapper": "CodingPride\\Source\\GithubApiWrapper",
+  "username": "fiunchinho",
+  "repository": "PHPConfig",
+  "badges":
+  {
+      "BraveCommit": {
+          "name": "BraveCommit",
+          "description": "Commiting after 16h",
+          "conditions": [
+              "LateCommitCondition",
+              "PhpFileExtensionCondition"
+          ]
+      },
+      "EarlyBirdCommit": {
+          "name": "EarlyBirdCommit",
+          "description": "Commiting after 16h",
+          "conditions": [
+              "EarlyCommitCondition"
+          ]
+      },
+      "PhpContributor": {
+          "name": "PhpContributor",
+          "description": "Commiting after 16h",
+          "conditions": [
+              "PhpFileExtensionCondition"
+          ]
+      },
+      "JsContributor": {
+          "name": "JsContributor",
+          "description": "Commiting after 16h",
+          "conditions": [
+              "JsFileExtensionCondition"
+          ]
+      },
+      "Handyman": {
+          "name": "Handyman",
+          "description": "Commiting after 16h",
+          "conditions": [
+              "PhpFileExtensionCondition",
+              "JsFileExtensionCondition"
+          ]
+      }
+  }
+}

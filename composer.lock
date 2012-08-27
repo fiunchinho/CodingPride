@@ -1,0 +1,67 @@
+{
+    "hash": "e584be3c46985f95c9387fb47ba35213",
+    "packages": [
+        {
+            "package": "doctrine/common",
+            "version": "dev-master",
+            "alias-pretty-version": "2.4.x-dev",
+            "alias-version": "2.4.9999999.9999999-dev"
+        },
+        {
+            "package": "doctrine/common",
+            "version": "dev-master",
+            "source-reference": "329d90ab8d6ed4c0b422d631caa5594c77c12055",
+            "commit-date": "1345128430"
+        },
+        {
+            "package": "doctrine/mongodb",
+            "version": "dev-master",
+            "alias-pretty-version": "1.0.x-dev",
+            "alias-version": "1.0.9999999.9999999-dev"
+        },
+        {
+            "package": "doctrine/mongodb",
+            "version": "dev-master",
+            "source-reference": "fdf44d850d7482b2cea7a0793d46999641c68e4f",
+            "commit-date": "1344539108"
+        },
+        {
+            "package": "doctrine/mongodb-odm",
+            "version": "dev-sf2.0",
+            "source-reference": "942bfd6f54dc83e4d692bd5651ff9ed395191609",
+            "commit-date": "1344881945"
+        },
+        {
+            "package": "symfony/console",
+            "version": "dev-master",
+            "alias-pretty-version": "2.1.x-dev",
+            "alias-version": "2.1.9999999.9999999-dev"
+        },
+        {
+            "package": "symfony/console",
+            "version": "dev-master",
+            "source-reference": "3b66f1056f5ac37146d3b755964e8a43a205f2f5",
+            "commit-date": "1344349441"
+        },
+        {
+            "package": "symfony/yaml",
+            "version": "dev-master",
+            "alias-pretty-version": "2.1.x-dev",
+            "alias-version": "2.1.9999999.9999999-dev"
+        },
+        {
+            "package": "symfony/yaml",
+            "version": "dev-master",
+            "source-reference": "6b3eb66a7c4495dcaa35a64dd93c8ba8c29f35d8",
+            "commit-date": "1344325256"
+        }
+    ],
+    "packages-dev": null,
+    "aliases": [
+
+    ],
+    "minimum-stability": "dev",
+    "stability-flags": {
+        "doctrine/mongodb-odm": 20
+    }
+}

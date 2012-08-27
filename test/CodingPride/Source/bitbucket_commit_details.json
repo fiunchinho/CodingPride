@@ -1,0 +1,34 @@
+{
+    "node": "b970637496f7",
+    "files": [
+        {
+            "type": "modified",
+            "file": "app/Yoya/Template/home/home.twig.php"
+        },
+        {
+            "type": "modified",
+            "file": "app/Yoya/Template/home/post.twig.php"
+        },
+        {
+            "type": "modified",
+            "file": "tools/dump-assets.php"
+        },
+        {
+            "type": "modified",
+            "file": "vendor/Penche/Container.php"
+        }
+    ],
+    "branches": [],
+    "raw_author": "Jose Armesto <github@armesto.net>",
+    "utctimestamp": "2012-06-02 18:25:14+00:00",
+    "author": "Jose Armesto",
+    "timestamp": "2012-06-02 20:25:14",
+    "raw_node": "b970637496f76a47c8c93533143c46a6b514c4f4",
+    "parents": [
+        "26a95b8b2f7f"
+    ],
+    "branch": null,
+    "message": "Adding deploy query string to static files\n",
+    "revision": null,
+    "size": -1
+}

@@ -1,0 +1,72 @@
+{
+    "committer": {
+        "login": "12meses12katas",
+        "url": "https://api.github.com/users/12meses12katas",
+        "gravatar_id": "c92497f11cb4bacfdf0e27ebb18dfe4f",
+        "avatar_url": "https://secure.gravatar.com/avatar/c92497f11cb4bacfdf0e27ebb18dfe4f?d=https://a248.e.akamai.net/assets.github.com%2Fimages%2Fgravatars%2Fgravatar-user-420.png",
+        "id": 564346
+    },
+    "stats": {
+        "deletions": 0,
+        "additions": 153,
+        "total": 153
+    },
+    "parents": [
+        {
+            "sha": "1daeebd2490943d4d46d51dd229b1ae30d16a4fd",
+            "url": "https://api.github.com/repos/12meses12katas/Febrero-Roman-Numerals/commits/1daeebd2490943d4d46d51dd229b1ae30d16a4fd"
+        }
+    ],
+    "sha": "eaa00262f7f0274bda6652660d5de9d392b4a5cc",
+    "commit": {
+        "tree": {
+            "sha": "6dc9fed1efd0df36d854994627892fb9134d0f19",
+            "url": "https://api.github.com/repos/12meses12katas/Febrero-Roman-Numerals/git/trees/6dc9fed1efd0df36d854994627892fb9134d0f19"
+        },
+        "committer": {
+            "date": "2011-03-28T07:10:19-07:00",
+            "email": "12meses12katas@gmail.com",
+            "name": ""
+        },
+        "comment_count": 0,
+        "message": "añado la solución a los números romanos en PHP",
+        "author": {
+            "date": "2011-03-20T23:44:57-07:00",
+            "email": "miguelangel.garcia@gmail.com",
+            "name": "Miguel Ángel García"
+        },
+        "url": "https://api.github.com/repos/12meses12katas/Febrero-Roman-Numerals/git/commits/eaa00262f7f0274bda6652660d5de9d392b4a5cc"
+    },
+    "files": [
+        {
+            "deletions": 0,
+            "filename": "magmax/php/roman.php",
+            "status": "added",
+            "raw_url": "https://github.com/12meses12katas/Febrero-Roman-Numerals/raw/eaa00262f7f0274bda6652660d5de9d392b4a5cc/magmax/php/roman.php",
+            "sha": "eaa00262f7f0274bda6652660d5de9d392b4a5cc",
+            "additions": 45,
+            "changes": 45,
+            "patch": "@@ -0,0 +1,45 @@\n+<?php\n+\n+class Pair {\n+  public $roman;\n+  public $arabian;\n+\n+  function __construct($roman, $arabian) {\n+    $this->roman = $roman;\n+    $this->arabian = $arabian;\n+  }\n+}\n+\n+class Roman {\n+\n+  private $CONVERSION;\n+\n+  function __construct () {\n+    $this->CONVERSION = array ();\n+    $this->CONVERSION[] = new Pair ('M', 1000);\n+    $this->CONVERSION[] = new Pair ('CM', 900);\n+    $this->CONVERSION[] = new Pair ('D', 500);\n+    $this->CONVERSION[] = new Pair ('CD', 400);\n+    $this->CONVERSION[] = new Pair ('C', 100);\n+    $this->CONVERSION[] = new Pair ('XC', 90);\n+    $this->CONVERSION[] = new Pair ('L', 50);\n+    $this->CONVERSION[] = new Pair ('XL', 40);\n+    $this->CONVERSION[] = new Pair ('X', 10);\n+    $this->CONVERSION[] = new Pair ('IX', 9);\n+    $this->CONVERSION[] = new Pair ('V',  5);\n+    $this->CONVERSION[] = new Pair ('IV', 4);\n+    $this->CONVERSION[] = new Pair ('I',  1);\n+  }\n+\n+  public function romanOf ($n) {\n+\n+    foreach ($this->CONVERSION as $pair)\n+      {\n+\tif ($n >= $pair->arabian)\n+\t  return $pair->roman . $this->romanOf($n - $pair->arabian);\n+      }\n+    return '';\n+  }\n+}\n+\n+?>",
+            "blob_url": "https://github.com/12meses12katas/Febrero-Roman-Numerals/blob/eaa00262f7f0274bda6652660d5de9d392b4a5cc/magmax/php/roman.php"
+        },
+        {
+            "deletions": 0,
+            "filename": "magmax/php/romantest.php",
+            "status": "added",
+            "raw_url": "https://github.com/12meses12katas/Febrero-Roman-Numerals/raw/eaa00262f7f0274bda6652660d5de9d392b4a5cc/magmax/php/romantest.php",
+            "sha": "eaa00262f7f0274bda6652660d5de9d392b4a5cc",
+            "additions": 108,
+            "changes": 108,
+            "patch": "@@ -0,0 +1,108 @@\n+<?php\n+\n+require_once 'PHPUnit/Framework.php';\n+\n+require_once './roman.php';\n+\n+class RomanTest extends PHPUnit_Framework_TestCase {\n+\n+  private $sut;\n+\n+  public function setUp() {\n+    $this->sut = new Roman;\n+  }\n+\n+  private function check ($roman, $arabian) {\n+    $this->assertEquals($roman, $this->sut->romanOf($arabian));\n+  }\n+\n+  public function test_creation () {\n+    $this->assertTrue($this->sut instanceof Roman);\n+  }\n+\n+  public function test_one () {\n+    $this->check('I', 1);\n+  }\n+\n+  public function test_two () {\n+    $this->check('II', 2);\n+  }\n+\n+  public function test_three () {\n+    $this->check('III', 3);\n+  }\n+\n+  public function test_four () {\n+    $this->check('IV', 4);\n+  }\n+\n+  public function test_five() {\n+    $this->check('V', 5);\n+  }\n+\n+  public function test_six () {\n+    $this->check('VI', 6);\n+  }\n+\n+  public function test_seven() {\n+    $this->check('VII', 7);\n+  }\n+\n+  public function test_nine() {\n+    $this->check('IX', 9);\n+  }\n+\n+  public function test_ten(){\n+    $this->check('X', 10);\n+  }\n+\n+  public function test_eleven() {\n+    $this->check('XI', 11);\n+  }\n+\n+  public function test_nineteen() {\n+    $this->check('XIX', 19);\n+  }\n+\n+  public function test_forty() {\n+    $this->check('XL', 40);\n+  }\n+\n+  public function test_fifty_five(){\n+    $this->check('LV', 55);\n+  }\n+\n+  public function test_eighty_eight() {\n+    $this->check('LXXXVIII', 88);\n+  }\n+\n+  public function test_ninety_two(){\n+    $this->check('XCII', 92);\n+  }\n+\n+  public function test_one_hundred_and_twenty_nine() {\n+    $this->check('CXXIX', 129);\n+  }\n+\n+  public function test_four_hundred_and_eighty(){\n+    $this->check('CDLXXX', 480);\n+  }\n+\n+  public function test_eight_hundred() {\n+    $this->check('DCCC', 800);\n+  }\n+\n+  public function test_nine_hundred_and_forty_six(){\n+    $this->check('CMXLVI', 946);\n+  }\n+\n+  public function test_a_thousand_and_twenty_one(){\n+    $this->check('MXXI', 1021);\n+  }\n+\n+  public function test_aceptation () {\n+    $this->check('MCMXCVIII', 1998);\n+  }\n+}\n+\n+?>",
+            "blob_url": "https://github.com/12meses12katas/Febrero-Roman-Numerals/blob/eaa00262f7f0274bda6652660d5de9d392b4a5cc/magmax/php/romantest.php"
+        }
+    ],
+    "author": {
+        "login": "magmax",
+        "url": "https://api.github.com/users/magmax",
+        "gravatar_id": "bb867552994775eb5b94525142c5f6e3",
+        "avatar_url": "https://secure.gravatar.com/avatar/bb867552994775eb5b94525142c5f6e3?d=https://a248.e.akamai.net/assets.github.com%2Fimages%2Fgravatars%2Fgravatar-user-420.png",
+        "id": 584026
+    },
+    "url": "https://api.github.com/repos/12meses12katas/Febrero-Roman-Numerals/commits/eaa00262f7f0274bda6652660d5de9d392b4a5cc"
+}

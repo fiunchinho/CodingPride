@@ -1,0 +1,26 @@
+{
+    "name": "softonic/codingpride",
+    "description": "A gamification application for the fun of a development team",
+	"version": "0.0.1-dev",
+    "authors": [
+        {
+            "name": "Jose Manuel Armesto",
+            "email": "josemanuel.armesto@softonic.com"
+        },
+        {
+            "name": "Ignacio Cofré",
+            "email": "ignacio.cofre@softonic.com"
+        }
+    ],
+    "require": {
+		"php": ">=5.3.2",
+        "doctrine/mongodb-odm": "dev-sf2.0",
+		"symfony/console": ">=2.0"
+    },
+	"minimum-stability": "dev",
+    "autoload": {
+        "psr-0" : {
+            "CodingPride" : "lib/"
+        }
+    }
+}
