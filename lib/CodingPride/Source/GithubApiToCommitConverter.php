@@ -3,8 +3,9 @@ namespace CodingPride\Source;
 
 class GithubApiToCommitConverter implements ConverterInterface
 {
-	public function convert( array $commit_info )
+	public function convert( $commit_info_from_api )
 	{
+		$commit_info 	= json_decode( $commit_info_from_api, true );
 		$commit = new \CodingPride\Document\Commit();
 		$commit->setAuthorUsername( $commit_info['author']['login'] );
 		$commit->setDate( new \DateTime( $commit_info['commit']['author']['date'] ) );
@@ -22,7 +23,7 @@ class GithubApiToCommitConverter implements ConverterInterface
 		return $commit;
 	}
 
-	public function getRevision( array $commit_info )
+	public function getRevision( $commit_info )
 	{
 		return $commit_info['sha'];
 	}

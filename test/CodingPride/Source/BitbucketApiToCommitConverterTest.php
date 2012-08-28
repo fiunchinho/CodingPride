@@ -7,9 +7,10 @@ class BitbucketApiToCommitConverterTest extends \PHPUnit_Framework_TestCase
 {
 	public function testConvertionToCommit()
 	{
-		$commit_info = json_decode( file_get_contents( __DIR__ . '/bitbucket_commit_details.json' ), true );
+		$commit_info = file_get_contents( __DIR__ . '/bitbucket_commit_details.json' );
 		$converter = new \CodingPride\Source\BitbucketApiToCommitConverter();
         $commit = $converter->convert( $commit_info );
+        $this->assertInstanceOf( '\CodingPride\Document\Commit', $commit, 'The commit was not created' );
         $this->assertEquals( $commit->getAuthorUsername(), 'Jose Armesto', 'The commit username is not right.' );
 	}
 

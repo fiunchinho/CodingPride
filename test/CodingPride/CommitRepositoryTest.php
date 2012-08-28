@@ -32,8 +32,8 @@ class CommitRepositoryTest extends \CodingPride\Tests\OdmTestCase
         $this->_dm		= DocumentManagerMock::create( new ConnectionMock(), $config );
     }*/
 
-
-	public function testCreatingCommit()
+    /*
+	public function testCreatingCommit2()
 	{
 		$commit = $this->getMock( '\CodingPride\Document\Commit', array( 'getAuthorUsername', 'setAuthor' ) );
 		$commit->expects( $this->once() )->method( 'getAuthorUsername' )->will( $this->returnValue( $username = 'username' ) );
@@ -54,21 +54,65 @@ class CommitRepositoryTest extends \CodingPride\Tests\OdmTestCase
 		
 		$commit_repository->create( array(), $converter );
 	}
-
-	public function testCreatingCommitReturnsFalseWhenTheCommitAlreadyExists()
+*/
+	public function testCreatingCommitThatAlreadyExistsReturnsTheSameCommit()
 	{
-		$revision = 23;
-		$commit_repository = $this->_getTestDocumentManager()->getRepository( 'CodingPride\Document\Commit' );
+		$expected_revision = 23;
 
-		$converter = $this->getMock( '\CodingPride\Source\ConverterInterface', array( 'convert', 'getRevision' ) );
-		$converter->expects( $this->once() )->method( 'getRevision' )->will( $this->returnValue( $revision ) );
+		$commit = $this->getMock( '\CodingPride\Document\Commit', array( 'getAuthorUsername', 'getRevision' ) );
+		$commit->expects( $this->never() )->method( 'getAuthorUsername' );
+		$commit->expects( $this->once() )->method( 'getRevision' )->will( $this->returnValue( $expected_revision ) );
+
+		$commit_repository = $this->_getTestDocumentManager()->getRepository( 'CodingPride\Document\Commit' );
 
 		$commit_repository         = $this->getMock( get_class( $commit_repository ), array( 'findOneBy' ), array(), '', false );
 		$commit_repository->expects( $this->once() )
 						->method( 'findOneBy' )
-						->with( array( 'revision' => $revision ) )
-						->will( $this->returnValue( true ) );
-		
-		$this->assertFalse( $commit_repository->create( array(), $converter ), 'It must return false when the commit already exists' );
+						->with( array( 'revision' => $expected_revision ) )
+						->will( $this->returnValue( $commit ) );
+
+		$this->assertEquals( $commit, $commit_repository->create( $commit ), 'It must return false when the commit already exists' );
 	}
+
+
+	public function testUserRepositoryIsCalledWhenCommitDoesNotExists()
+	{
+		$this->markTestSkipped();
+		$expected_revision = 23;
+
+		$commit = $this->getMock( '\CodingPride\Document\Commit', array( 'getAuthorUsername', 'getRevision' ) );
+		$commit->expects( $this->never() )->method( 'getAuthorUsername' );
+		$commit->expects( $this->once() )->method( 'getRevision' )->will( $this->returnValue( $expected_revision ) );
+
+		$commit_repository = $this->_getTestDocumentManager()->getRepository( 'CodingPride\Document\Commit' );
+
+		$commit_repository         = $this->getMock( get_class( $commit_repository ), array( 'findOneBy' ), array(), '', false );
+		$commit_repository->expects( $this->once() )
+						->method( 'findOneBy' )
+						->with( array( 'revision' => $expected_revision ) )
+						->will( $this->returnValue( false ) );
+
+		$this->assertEquals( $commit, $commit_repository->create( $commit ), 'It must return false when the commit already exists' );
+	}
+	
+/*
+	public function testCreatingCommit()
+	{
+		$expected_revision = 23;
+		$expected_username = 'username';
+
+		$commit = $this->getMock( '\CodingPride\Document\Commit', array( 'getAuthorUsername', 'getRevision' ) );
+		$commit->expects( $this->once() )->method( 'getAuthorUsername' )->will( $this->returnValue( $expected_username ) );
+		$commit->expects( $this->once() )->method( 'getRevision' )->will( $this->returnValue( $expected_revision ) );
+
+		$commit_repository = $this->_getTestDocumentManager()->getRepository( 'CodingPride\Document\Commit' );
+		$commit_repository         = $this->getMock( get_class( $commit_repository ), array( 'findOneBy' ), array(), '', false );
+		$commit_repository->expects( $this->once() )
+						->method( 'findOneBy' )
+						->with( array( 'revision' => $expected_revision ) )
+						->will( $this->returnValue( false ) );
+						
+		$this->assertEquals( $commit, $commit_repository->create( $commit ) );
+	}
+	*/
 }

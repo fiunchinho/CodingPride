@@ -16,7 +16,7 @@ class BitbucketApiWrapperTest extends \PHPUnit_Framework_TestCase
         $http->expects( $this->at( 0 ) )->method( 'get' )->will( $this->returnCallback( array( get_class( $this ), 'getJsonResponseFromApi' ) ) );
         $http->expects( $this->exactly( 5 ) )->method( 'get' )->will( $this->returnCallback( array( get_class( $this ), 'getJsonCommitDetails' ) ) );
 
-        $config 			= array( 'username' => 'user', 'repository' => 'repo' );
+        $config 			= array( 'login' => 'login', 'password' => 'pass', 'username' => 'user', 'repository' => 'repo' );
         $api                = new \CodingPride\Source\BitbucketApiWrapper( $database, $config, $http );
 		$commits_collection = $api->getLatestCommits();
 		$this->assertEquals( 4, count( $commits_collection ), 'The number of commits parsed from json is wrong.' );
@@ -36,7 +36,7 @@ class BitbucketApiWrapperTest extends \PHPUnit_Framework_TestCase
         $http->expects( $this->at( 0 ) )->method( 'get' )->will( $this->returnCallback( array( get_class( $this ), 'getJsonResponseFromApi' ) ) );
         $http->expects( $this->exactly( 5 ) )->method( 'get' )->will( $this->returnCallback( array( get_class( $this ), 'getJsonCommitDetails' ) ) );
 
-        $config 			= array( 'username' => 'user', 'repository' => 'repo' );
+        $config 			= array( 'login' => 'login', 'password' => 'pass', 'username' => 'user', 'repository' => 'repo' );
         $api                = new \CodingPride\Source\BitbucketApiWrapper( $database, $config, $http );
 		$commits_collection = $api->getLatestCommits();
 		$this->assertEquals( 2, count( $commits_collection ), 'The number of commits parsed from json is wrong.' );

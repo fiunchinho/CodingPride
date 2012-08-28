@@ -9,24 +9,17 @@ use Doctrine\ODM\MongoDB\DocumentRepository;
  */
 class CommitRepository extends DocumentRepository
 {
-	public function create( array $commit_info = array(), \CodingPride\Source\ConverterInterface $converter = null )
+	public function create( Commit $commit )
 	{
-		$revision 	= $converter->getRevision( $commit_info );
-		$commit		= $this->findOneBy( array( 'revision' => $revision ) );
+		$commit_from_database = $this->findOneBy( array( 'revision' => $commit->getRevision() ) );
 
-		if ( !empty( $commit ) )
+		if ( empty( $commit_from_database ) )
 		{
-			return false;
+			$user_repository	= $this->dm->getRepository( '\CodingPride\Document\User' );
+			$author				= $user_repository->create( $commit->getAuthorUsername() );
+			$this->dm->persist( $commit );
+			$this->dm->flush();
 		}
-		
-		$commit 			= $converter->convert( $commit_info );
-		$user_repository	= $this->dm->getRepository( '\CodingPride\Document\User' );
-		$author				= $user_repository->create( $commit->getAuthorUsername() );
-
-		$commit->setAuthor( $author );
-
-		$this->dm->persist( $commit );
-		$this->dm->flush();
 
 		return $commit;
 	}

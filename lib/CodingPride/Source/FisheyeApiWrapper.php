@@ -3,6 +3,8 @@ namespace CodingPride\Source;
 
 class FisheyeApiWrapper extends AbstractApiWrapper
 {
+	const CONVERTER_CLASS_NAME = '\CodingPride\Source\FisheyeApiToCommitConverter';
+
 	/*
 	public function __construct( $url )
 	{
@@ -88,6 +90,7 @@ class FisheyeApiWrapper extends AbstractApiWrapper
 	}
 	*/
 
+	/*
 	public function getLatestCommits( $path = '/', $max = 1000 )
 	{
 		$api_response_as_string = $this->http->get( $this->getCommitListUrl() );
@@ -104,10 +107,13 @@ class FisheyeApiWrapper extends AbstractApiWrapper
 
 		return $commit_collection;
 	}
+	*/
 
-	protected function getConverter()
+	protected function getCommitRevisionIterator()
 	{
-		return new FisheyeApiToCommitConverter();
+		$api_response_as_string = $this->http->get( $this->getCommitListUrl() );
+		$array = json_decode( $api_response_as_string, true );
+		return new \ArrayIterator( $array['csid'] );
 	}
 
 	protected function setUpHttp()

@@ -7,18 +7,16 @@ class FisheyeApiToCommitConverterTest extends \PHPUnit_Framework_TestCase
 {
 	public function testConvertionToCommit()
 	{
-		$this->markTestSkipped();
-		$commit_info = json_decode( file_get_contents( __DIR__ . '/fisheye_commit_details.json' ), true );
+		$commit_info = file_get_contents( __DIR__ . '/fisheye_commit_details.json' );
 		$converter = new \CodingPride\Source\FisheyeApiToCommitConverter();
         $commit = $converter->convert( $commit_info );
-        $this->assertEquals( $commit->getAuthorUsername(), 'user.name', 'The commit username is not right.' );
+        $this->assertEquals( 'borja.morales', $commit->getAuthorUsername(), 'The commit username is not right.' );
 	}
 
 	public function testGetRevisionFromCommitInfo()
 	{
-		$this->markTestSkipped();
-		$commit_info = json_decode( file_get_contents( __DIR__ . '/fisheye_commit_details.json' ), true );
-		$converter = new \CodingPride\Source\FisheyeApiToCommitConverter();
-		$this->assertEquals( '1', $converter->getRevision( $commit_info ), 'The revision value is not right.' );
+		$commit_info 	= json_decode( file_get_contents( __DIR__ . '/fisheye_latest_commits.json' ), true );
+		$converter 		= new \CodingPride\Source\FisheyeApiToCommitConverter();
+		$this->assertEquals( '74815', $converter->getRevision( $commit_info['csid'][0] ), 'The revision value is not right.' );
 	}
 }

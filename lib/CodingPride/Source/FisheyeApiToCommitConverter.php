@@ -3,8 +3,9 @@ namespace CodingPride\Source;
 
 class FisheyeApiToCommitConverter implements ConverterInterface
 {
-	public function convert( array $commit_info )
+	public function convert( $commit_info_from_api )
 	{
+		$commit_info 	= json_decode( $commit_info_from_api, true );
 		// Hack to convert from microtime to time format.
 		$date = substr( $commit_info['date'], 0, -3 );
 		$commit = new \CodingPride\Document\Commit();
@@ -28,8 +29,8 @@ class FisheyeApiToCommitConverter implements ConverterInterface
 		return $commit;
 	}
 
-	public function getRevision( array $commit_info )
+	public function getRevision( $commit_info )
 	{
-		return $commit_info['csid'];
+		return $commit_info;
 	}
 }

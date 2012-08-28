@@ -7,7 +7,7 @@ class GithubApiToCommitConverterTest extends \PHPUnit_Framework_TestCase
 {
 	public function testConvertionToCommit()
 	{
-		$commit_info = json_decode( file_get_contents( __DIR__ . '/github_commit_details.json' ), true );
+		$commit_info = file_get_contents( __DIR__ . '/github_commit_details.json' );
 		$converter = new \CodingPride\Source\GithubApiToCommitConverter();
         $commit = $converter->convert( $commit_info );
         $this->assertEquals( $commit->getAuthorUsername(), 'magmax', 'The commit username is not right.' );

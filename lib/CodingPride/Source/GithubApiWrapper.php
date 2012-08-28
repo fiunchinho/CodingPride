@@ -3,33 +3,13 @@ namespace CodingPride\Source;
 
 class GithubApiWrapper extends AbstractApiWrapper
 {
-	public function getLatestCommits( $path = '/', $max = 1000 )
+	const CONVERTER_CLASS_NAME = '\CodingPride\Source\GithubApiToCommitConverter';
+	
+	protected function getCommitRevisionIterator()
 	{
 		$api_response_as_string = $this->http->get( $this->getCommitListUrl() );
-		$api_response_array		= json_decode( $api_response_as_string, true );
-		
-		$commit_collection		= new \CodingPride\CommitList();
-		$commit_repository		= $this->_dm->getRepository( 'CodingPride\Document\Commit' );
-
-		foreach ( $api_response_array as $commit_info )
-		{
-			$commit_details 		= $this->http->get( $this->getCommitDetailsUrl() . $commit_info['sha'] );
-			$commit 				= $commit_repository->create(
-				json_decode( $commit_details, true ),
-				$this->getConverter()
-			);
-			if ( $commit )
-			{
-				$commit_collection[] = $commit;	
-			}
-		}
-
-		return $commit_collection;
-	}
-
-	protected function getConverter()
-	{
-		return new GithubApiToCommitConverter();
+		$array = json_decode( $api_response_as_string, true );
+		return new \ArrayIterator( $array );
 	}
 
 	protected function setUpHttp()
