@@ -42,12 +42,12 @@ class BitbucketApiWrapperTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals( 2, count( $commits_collection ), 'The number of commits parsed from json is wrong.' );
 	}
 
-	public function getJsonCommitDetails()
+	public static function getJsonCommitDetails()
 	{
 		return file_get_contents( __DIR__ . '/bitbucket_commit_details.json' );
 	}
 
-	public function getJsonResponseFromApi()
+	public static function getJsonResponseFromApi()
 	{
 		return file_get_contents( __DIR__ . '/bitbucket_latest_commits.json' );
 	}

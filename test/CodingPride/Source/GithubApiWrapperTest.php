@@ -40,12 +40,12 @@ class GithubApiWrapperTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals( 1, count( $commits_collection ), 'The number of commits parsed from json is wrong.' );
 	}
 
-	public function getJsonCommitDetails()
+	public static function getJsonCommitDetails()
 	{
 		return file_get_contents( __DIR__ . '/github_commit_details.json' );
 	}
 
-	public function getJsonResponseFromApi()
+	public static function getJsonResponseFromApi()
 	{
 		return file_get_contents( __DIR__ . '/github_latest_commits.json' );
 	}
