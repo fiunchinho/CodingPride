@@ -1,7 +1,9 @@
 <?php
-require __DIR__ . '/../../vendor/autoload.php';
+namespace CodingPride\Tests;
 
-class BadgeTest extends PHPUnit_Framework_TestCase
+require_once __DIR__ . '/../../vendor/autoload.php';
+
+class BadgeTest extends \PHPUnit_Framework_TestCase
 {
 	public function testBadgeIsNotGivenWhenOneConditionIsNotMet()
 	{

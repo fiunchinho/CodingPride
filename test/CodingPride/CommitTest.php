@@ -1,7 +1,9 @@
 <?php
-require __DIR__ . '/../../vendor/autoload.php';
+namespace CodingPride\Tests;
 
-class CommitTest extends PHPUnit_Framework_TestCase
+require_once __DIR__ . '/../../vendor/autoload.php';
+
+class CommitTest extends \PHPUnit_Framework_TestCase
 {
 	public function testGettersAndSetters()
 	{
@@ -12,7 +14,7 @@ class CommitTest extends PHPUnit_Framework_TestCase
 		$commit->setChild( $child = 123 );
 		$commit->setComment( $comment = 'This is a comment' );
 		$commit->setAuthor( $user = $this->getMock( '\CodingPride\Document\User' ) );
-		$commit->setDate( $date = new DateTime( '03/08/1984' ) );
+		$commit->setDate( $date = new \DateTime( '03/08/1984' ) );
 		$commit->setFiles( $files = array( 'index.php', 'header.php' ) );
 
 

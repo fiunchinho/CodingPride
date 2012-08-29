@@ -9,7 +9,7 @@ class Commit
 	/** @ODM\Id */
 	private $id;
 	
-	/** @ODM\ReferenceOne(targetDocument="User", cascade="all") */
+	/** @ODM\ReferenceOne(targetDocument="User") */
 	private $author;
 
 	private $author_username;

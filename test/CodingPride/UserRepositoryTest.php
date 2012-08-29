@@ -16,15 +16,4 @@ class UserRepositoryTest extends OdmTestCase
 		$this->assertEquals( 'some user', $commit_repository->create( 'username' ), 'The user created is not right' );
 		$this->assertEquals( 'some user', $commit_repository->create( 'username' ), 'The user created is not right' );
 	}
-	/*
-	public function testThatOnlyLooksForTheUserTheFirstTimeAndItCreatesANewUser()
-	{
-		$commit_repository = $this->_getTestDocumentManager()->getRepository( 'CodingPride\Document\User' );
-		$commit_repository = $this->getMock( get_class( $commit_repository ), array( 'findOneBy' ), array(), '', false );
-		$commit_repository->expects( $this->once() )->method( 'findOneBy' )->will( $this->returnValue( false ) );
-		
-		$created_user = $commit_repository->create( 'username' );
-		$this->assertEquals( $created_user, $commit_repository->create( 'username' ), 'The user created is not right' );
-	}
-	*/
 }

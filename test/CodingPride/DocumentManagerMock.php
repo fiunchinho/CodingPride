@@ -113,6 +113,7 @@ class DocumentManagerMock extends \Doctrine\ODM\MongoDB\DocumentManager
 
     public function persist( $document )
     {
+        //var_dump("ESTOY EN PERSIST DEL MANAGER MOCK");die;
         return null;
     }
 }

@@ -27,9 +27,9 @@ class BitbucketApiWrapper extends AbstractApiWrapper
 		return 'https://api.bitbucket.org/1.0/repositories/' . $this->config['username'] . '/' . $this->config['repository'] . '/changesets';
 	}
 
-	protected function getCommitDetailsUrl()
+	protected function getCommitDetailsUrl( $sha )
 	{
-		return 'https://api.bitbucket.org/1.0/repositories/' . $this->config['username'] . '/' . $this->config['repository'] . '/changesets/';
+		return 'https://api.bitbucket.org/1.0/repositories/' . $this->config['username'] . '/' . $this->config['repository'] . '/changesets/' . $sha;
 	}
 
 }

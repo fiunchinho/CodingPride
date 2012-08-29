@@ -25,7 +25,7 @@ $http 				= new CodingPride\Http();
 $config 			= json_decode( file_get_contents( 'config.json' ) , true );
 $api 				= new $config['api_wrapper']( $document_manager, $config, $http );
 $badge_factory		= new BadgeFactory( $document_manager, $config['badges'] );
-$pagination_param 	= $document_manager->getRepository( 'CodingPride\Document\Badge' )->getLastPaginationParam();
+//$pagination_param 	= $document_manager->getRepository( 'CodingPride\Document\Badge' )->getLastPaginationParam();
 $gamificator 		= new Gamificator( $api, $badge_factory->getBadges() );
 
 

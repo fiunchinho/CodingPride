@@ -4,8 +4,8 @@ namespace CodingPride\Tests;
 use Doctrine\ODM\MongoDB\Configuration;
 
 //require_once __DIR__ . '/../../vendor/autoload.php';
-require __DIR__ . '/DocumentManagerMock.php';
-require __DIR__ . '/ConnectionMock.php';
+require_once __DIR__ . '/DocumentManagerMock.php';
+require_once __DIR__ . '/ConnectionMock.php';
 
 class OdmTestCase extends \PHPUnit_Framework_TestCase
 {

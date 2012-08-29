@@ -17,7 +17,8 @@ class BadgeGiver
 		{
 			if ( $badge->check( $commit ) )
 			{
-				$commit->getAuthor()->addBadge( $badge );
+				$author = $commit->getAuthor();
+				$author->addBadge( $badge );
 			}
 
 			$badge->setLast_pagination_param( $commit->getRevision() );

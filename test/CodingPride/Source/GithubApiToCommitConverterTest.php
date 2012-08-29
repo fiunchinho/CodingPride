@@ -1,7 +1,7 @@
 <?php
 namespace CodingPride\Source\Tests;
 
-require __DIR__ . '/../../../vendor/autoload.php';
+require_once __DIR__ . '/../../../vendor/autoload.php';
 
 class GithubApiToCommitConverterTest extends \PHPUnit_Framework_TestCase
 {

@@ -13,13 +13,17 @@ class CommitRepository extends DocumentRepository
 	{
 		$commit_from_database = $this->findOneBy( array( 'revision' => $commit->getRevision() ) );
 
-		if ( empty( $commit_from_database ) )
+		if ( !empty( $commit_from_database ) )
 		{
-			$user_repository	= $this->dm->getRepository( '\CodingPride\Document\User' );
-			$author				= $user_repository->create( $commit->getAuthorUsername() );
-			$this->dm->persist( $commit );
-			$this->dm->flush();
+			return false;
 		}
+
+		$user_repository	= $this->dm->getRepository( '\CodingPride\Document\User' );
+		$author				= $user_repository->create( $commit->getAuthorUsername() );
+		$commit->setAuthor( $author );
+		
+		$this->dm->persist( $commit );
+		$this->dm->flush();
 
 		return $commit;
 	}

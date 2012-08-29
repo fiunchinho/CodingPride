@@ -27,7 +27,7 @@ abstract class AbstractApiWrapper
 
 		foreach ( $commit_revision_iterator as $commit_info )
 		{
-			$commit_details 	= $this->http->get( $this->getCommitDetailsUrl() . $converter->getRevision( $commit_info ) );
+			$commit_details 	= $this->http->get( $this->getCommitDetailsUrl( $converter->getRevision( $commit_info ) ) );
 			$commit 			= $converter->convert( $commit_details );
 			$is_commit_new		= $commit_repository->create( $commit );
 

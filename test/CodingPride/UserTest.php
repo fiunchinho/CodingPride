@@ -1,7 +1,9 @@
 <?php
-require __DIR__ . '/../../vendor/autoload.php';
+namespace CodingPride\Tests;
 
-class UserTest extends PHPUnit_Framework_TestCase
+require_once __DIR__ . '/../../vendor/autoload.php';
+
+class UserTest extends \PHPUnit_Framework_TestCase
 {
 	public function testBadgesAreNotFilteredIfUserHasNoneOfThem()
 	{

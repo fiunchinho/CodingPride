@@ -22,9 +22,9 @@ class GithubApiWrapper extends AbstractApiWrapper
 		return 'https://api.github.com/repos/' . $this->config['username'] . '/' . $this->config['repository'] . '/commits';
 	}
 
-	protected function getCommitDetailsUrl()
+	protected function getCommitDetailsUrl( $sha )
 	{
-		return 'https://api.github.com/repos/' . $this->config['username'] . '/' . $this->config['repository'] . '/commits/';
+		return 'https://api.github.com/repos/' . $this->config['username'] . '/' . $this->config['repository'] . '/commits/' . $sha;
 	}
 
 }
