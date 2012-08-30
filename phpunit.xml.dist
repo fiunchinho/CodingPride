@@ -10,6 +10,12 @@
     <filter>
         <whitelist>
             <directory suffix=".php">./lib/CodingPride/</directory>
+            <exclude>
+                <directory suffix=".php">./lib/CodingPride/Hydrator</directory>
+                <directory suffix=".php">./lib/CodingPride/Proxy</directory>
+                <file>./lib/CodingPride/cron2.php</file>
+                <file>./lib/CodingPride/cron.php</file>
+            </exclude>
         </whitelist>
     </filter>
 
