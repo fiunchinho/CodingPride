@@ -1,0 +1,1 @@
+[![Build Status](https://secure.travis-ci.org/fiunchinho/CodingPride.png)](http://travis-ci.org/fiunchinho/[CodingPride])
