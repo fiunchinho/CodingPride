@@ -1,8 +1,6 @@
 <?php
 namespace CodingPride\Condition;
 
-//require_once 'ConditionInterface.php';
-
 class EarlyCommitCondition implements ConditionInterface
 {
 	const EARLY_TIME = '09:00';

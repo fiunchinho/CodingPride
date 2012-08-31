@@ -3,7 +3,7 @@ namespace CodingPride\Tests\Condition;
 
 class PhpFileExtensionConditionTest extends \PHPUnit_Framework_TestCase
 {
-	public function testConditionIsMetWhenRightPath()
+	public function testConditionIsMetWhenRightExtension()
 	{
 		$file = $this->getMock( '\CodingPride\Document\File', array( 'getExtension' ) );
 		$file->expects( $this->once() )->method( 'getExtension' )->will( $this->returnValue( 'php' ) );
@@ -15,7 +15,7 @@ class PhpFileExtensionConditionTest extends \PHPUnit_Framework_TestCase
 		$this->assertTrue( $condition->check( $commit ), 'The condition has to be met when the file is a php file.' );
 	}
 
-	public function testConditionIsMetWhenTheFirstFileHasRightPath()
+	public function testConditionIsMetWhenTheFirstFileHasRightExtension()
 	{
 		$file = $this->getMock( '\CodingPride\Document\File', array( 'getExtension' ) );
 		$file->expects( $this->once() )->method( 'getExtension' )->will( $this->returnValue( 'php' ) );
@@ -29,7 +29,7 @@ class PhpFileExtensionConditionTest extends \PHPUnit_Framework_TestCase
 		$this->assertTrue( $condition->check( $commit ), 'The condition has to be met when one file is a php file.' );
 	}
 
-	public function testConditionIsMetWhenTheSecondFileHasRightPath()
+	public function testConditionIsMetWhenTheSecondFileHasRightExtension()
 	{
 		$file = $this->getMock( '\CodingPride\Document\File', array( 'getExtension' ) );
 		$file->expects( $this->once() )->method( 'getExtension' )->will( $this->returnValue( 'php' ) );
@@ -43,7 +43,7 @@ class PhpFileExtensionConditionTest extends \PHPUnit_Framework_TestCase
 		$this->assertTrue( $condition->check( $commit ), 'The condition has to be met when one file is a php file.' );
 	}
 
-	public function testConditionIsNotMetWhenNoFilesHaveRightPath()
+	public function testConditionIsNotMetWhenNoFilesHaveRightExtension()
 	{
 		$file = $this->getMock( '\CodingPride\Document\File', array( 'getExtension' ) );
 		$file->expects( $this->once() )->method( 'getExtension' )->will( $this->returnValue( 'css' ) );
