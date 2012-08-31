@@ -1,7 +1,6 @@
 <?php
 namespace CodingPride\Tests;
 
-require_once __DIR__ . '/../../vendor/autoload.php';
 require_once __DIR__ . '/DocumentManagerMock.php';
 require_once __DIR__ . '/ConnectionMock.php';
 

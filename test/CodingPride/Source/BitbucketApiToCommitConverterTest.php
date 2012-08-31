@@ -1,8 +1,6 @@
 <?php
 namespace CodingPride\Source\Tests;
 
-require_once __DIR__ . '/../../../vendor/autoload.php';
-
 class BitbucketApiToCommitConverterTest extends \PHPUnit_Framework_TestCase
 {
 	public function testConvertionToCommit()

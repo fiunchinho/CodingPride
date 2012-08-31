@@ -1,8 +1,6 @@
 <?php
 namespace CodingPride\Tests;
 
-require_once __DIR__ . '/../../vendor/autoload.php';
-
 class CommitTest extends \PHPUnit_Framework_TestCase
 {
 	public function testGettersAndSetters()
