@@ -8,4 +8,3 @@ before_script:
   - sh mongo-php-driver-installer.sh
   - wget http://getcomposer.org/composer.phar
   - php composer.phar install
-  - phpunit
