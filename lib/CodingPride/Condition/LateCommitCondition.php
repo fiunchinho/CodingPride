@@ -3,7 +3,7 @@ namespace CodingPride\Condition;
 
 class LateCommitCondition implements ConditionInterface
 {
-	const LATE_TIME = '16:00';
+	const LATE_TIME = '23:00';
 
 	public function check( \CodingPride\Document\Commit $commit )
 	{

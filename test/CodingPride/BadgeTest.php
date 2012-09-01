@@ -55,12 +55,14 @@ class BadgeTest extends \PHPUnit_Framework_TestCase
 		$badge->setDescription( $description = 'This is a description' );
 		$badge->setName( $name = 'This is a name' );
 		$badge->setLast_pagination_param( 23 );
+		$badge->setActive( 1 );
 
-		$this->assertEquals( $badge->getDescription(), $description, 'The description getter/setter does not work.' );
-		$this->assertEquals( $badge->getName(), $name, 'The name getter/setter does not work.' );
-		$this->assertEquals( $badge->getLast_pagination_param(), 23, 'The last date checked getter/setter does not work.' );
-		$this->assertEquals( $badge->getId(), null, 'The getId method does not work.' );
-		$this->assertEquals( $badge->getName(), (string) $badge, 'The toString method does not work.' );
+		$this->assertEquals( $description, $badge->getDescription(), 'The description getter/setter does not work.' );
+		$this->assertEquals( $name, $badge->getName(), 'The name getter/setter does not work.' );
+		$this->assertEquals( 23, $badge->getLast_pagination_param(), 'The last date checked getter/setter does not work.' );
+		$this->assertEquals( null, $badge->getId(), 'The getId method does not work.' );
+		$this->assertEquals( (string) $badge, $badge->getName(), 'The toString method does not work.' );
+		$this->assertEquals( 1, $badge->isActive(), 'The active setter/getter does not work.' );
 	}
 	
 }

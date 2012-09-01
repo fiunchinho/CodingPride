@@ -34,7 +34,7 @@ class GithubApiWrapperTest extends \PHPUnit_Framework_TestCase
 
         $config 			= array( 'username' => 'user', 'repository' => 'repo' );
         $api                = new \CodingPride\Source\GithubApiWrapper( $database, $config, $http );
-		$commits_collection = $api->getLatestCommits();
+		$commits_collection = $api->getLatestCommits( array( 'last_sha' => '123' ) );
 		$this->assertEquals( 1, count( $commits_collection ), 'The number of commits parsed from json is wrong.' );
 	}
 

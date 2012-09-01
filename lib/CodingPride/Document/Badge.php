@@ -23,7 +23,7 @@ class Badge
 	private $last_pagination_param;
 
 	/** @ODM\Int */
-	private $active = 1;
+	private $active = 0;
 
 	public function getId()
 	{
@@ -79,6 +79,17 @@ class Badge
 	public function setLast_pagination_param( $param )
 	{
 		$this->last_pagination_param = $param;
+		return $this;
+	}
+
+	public function isActive()
+	{
+		return $this->active;
+	}
+
+	public function setActive( $active )
+	{
+		$this->active = $active;
 		return $this;
 	}
 

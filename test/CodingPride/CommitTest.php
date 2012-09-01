@@ -5,7 +5,7 @@ class CommitTest extends \PHPUnit_Framework_TestCase
 {
 	public function testGettersAndSetters()
 	{
-		$commit 	= new \CodingPride\Document\Commit();		
+		$commit 	= new \CodingPride\Document\Commit();
 		$commit->setBranch( $branch = 'Branch' );
 		$commit->setRevision( $revision = 123 );
 		$commit->setParent( $parent = 123 );
@@ -24,5 +24,16 @@ class CommitTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals( $commit->getAuthor(), $user, 'The author getter/setter does not work.' );
 		$this->assertEquals( $commit->getFiles(), $files, 'The files getter/setter does not work.' );
 		$this->assertEquals( $commit->getDate(), $date, 'The date getter/setter does not work.' );
+	}
+
+	public function testThatFilesAreCorrectlySetted()
+	{
+		$commit 	= new \CodingPride\Document\Commit();
+		$commit->setFiles( array( 'index.php', 'javascript.js' ) );
+		$commit->postLoad();
+		$files = $commit->getFiles();
+
+		$this->assertEquals( 2, count( $files ), 'The number of files is not correct.' );
+		$this->assertInstanceOf( '\CodingPride\File', $files[0], 'Must be a File instance.' );
 	}
 }

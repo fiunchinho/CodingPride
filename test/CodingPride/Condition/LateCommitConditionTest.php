@@ -6,7 +6,7 @@ class LateCommitConditionTest extends \PHPUnit_Framework_TestCase
 	public function testConditionIsMetWhenDateAfterEarlyTime()
 	{
 		$date 		= new \DateTime( '03/08/1984 ' . \CodingPride\Condition\LateCommitCondition::LATE_TIME );
-		$limit_date = $date->modify( '+1 hour' );
+		$limit_date = $date->modify( '+1 minute' );
 		$commit 	= $this->getMock( '\CodingPride\Document\Commit', array( 'getDate' ) );
 		$commit->expects( $this->once() )->method( 'getDate' )->will( $this->returnValue( $limit_date ) );
 
@@ -17,7 +17,7 @@ class LateCommitConditionTest extends \PHPUnit_Framework_TestCase
 	public function testConditionIsNotMetWhenDateBeforeEarlyTime()
 	{
 		$date 		= new \DateTime( '03/08/1984 ' . \CodingPride\Condition\LateCommitCondition::LATE_TIME );
-		$limit_date = $date->modify( '-1 hour' );
+		$limit_date = $date->modify( '-1 minute' );
 		$commit 	= $this->getMock( '\CodingPride\Document\Commit', array( 'getDate' ) );
 		$commit->expects( $this->once() )->method( 'getDate' )->will( $this->returnValue( $limit_date ) );
 

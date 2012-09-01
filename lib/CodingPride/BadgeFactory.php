@@ -26,16 +26,25 @@ class BadgeFactory
 
 	protected function setBadges()
 	{
-		$badges_array		= array();
+		$active_badges		= $inactive_badges = array();
 
 
 		foreach ( $this->badges_from_config as $badge_name => $badge_details )
 		{
 			$conditions 	= $this->createConditions( $badge_details['conditions'] );
-			$badges_array[] = $this->_dm->getRepository( 'CodingPride\Document\Badge' )->create( $badge_name, $conditions, $badge_details['description'] );
+			$badge 			= $this->_dm->getRepository( 'CodingPride\Document\Badge' )->create( $badge_name, $conditions, $badge_details['description'] );
+			if ( $badge->isActive() )
+			{
+				$active_badges[] = 	$badge;
+			}
+			else
+			{
+				$inactive_badges[] = $badge;
+			}
 		}
 
-		$this->badges = new BadgeCollection( $badges_array );
+		$this->badges 			= new BadgeCollection( $active_badges );
+		$this->inactive_badges 	= new BadgeCollection( $inactive_badges );
 		$this->_dm->flush();
 	}
 
@@ -47,6 +56,16 @@ class BadgeFactory
 		}
 
 		return $this->badges;
+	}
+
+	public function getInactiveBadges()
+	{
+		if ( empty( $this->inactive_badges ) )
+		{
+			$this->setBadges();
+		}
+
+		return $this->inactive_badges;
 	}
 	
 }

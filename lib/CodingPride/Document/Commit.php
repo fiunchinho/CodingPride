@@ -44,6 +44,18 @@ class Commit
 	 */
 	private $child;
 
+	/** @ODM\PostLoad */
+    public function postLoad()
+    {
+        $files = array();
+
+		foreach ( $this->files as $file )
+		{
+			$files[] = new \CodingPride\File( $file['path'] );
+		}
+		$this->setFiles( $files );
+    }
+
 	public function getDate()
 	{
 		return $this->date;

@@ -1,0 +1,12 @@
+#!/usr/bin/env php
+<?php
+require_once __DIR__ . '/../vendor/autoload.php';
+
+use CodingPride\GiveBadges;
+use CodingPride\ImportCommits;
+use Symfony\Component\Console\Application;
+
+$application = new Application();
+$application->add( new GiveBadges() );
+$application->add( new ImportCommits() );
+$application->run();
