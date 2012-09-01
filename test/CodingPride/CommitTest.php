@@ -29,7 +29,7 @@ class CommitTest extends \PHPUnit_Framework_TestCase
 	public function testThatFilesAreCorrectlySetted()
 	{
 		$commit 	= new \CodingPride\Document\Commit();
-		$commit->setFiles( array( 'index.php', 'javascript.js' ) );
+		$commit->setFiles( array( array( 'path' => 'index.php', 'info' => null ), array( 'path' => 'javascript.js', 'info' => null ) ) );
 		$commit->postLoad();
 		$files = $commit->getFiles();
 
