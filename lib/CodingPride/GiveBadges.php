@@ -16,7 +16,6 @@ use CodingPride\Source\GithubCommitApiWrapper;
 use CodingPride\BadgeFactory;
 use CodingPride\Gamificator;
 
-
 class GiveBadges extends Command
 {
     protected function configure()
@@ -30,7 +29,21 @@ class GiveBadges extends Command
     protected function execute( InputInterface $input, OutputInterface $output )
     {
         $config             = json_decode( file_get_contents( __DIR__ . '/config.json' ) , true );
+        $this->createDatabaseManager( $config );
 
+        $api                = new $config['api_wrapper']( $this->dm, $config, new \Guzzle\Http\Client() );
+        $this->badge_factory= new BadgeFactory( $this->dm, $config['badges'] );
+
+        $this->badge_giver  = new BadgeGiver();
+        $badge_giver->giveBadges( $api->getLatestCommits(), $this->badge_factory->getBadges() );
+
+        $this->updateBadgesOutOfDate();
+
+        $this->dm->flush();
+    }
+
+    private function createDatabaseManager( $config )
+    {
         AnnotationDriver::registerAnnotationClasses();
 
         $doctrine_config = new Configuration();
@@ -40,31 +53,19 @@ class GiveBadges extends Command
         $doctrine_config->setHydratorNamespace( 'Hydrator' ) ;
         $doctrine_config->setMetadataDriverImpl( AnnotationDriver::create('.') );
         $doctrine_config->setDefaultDB( $config['mongo']['options']['db'] );
-        $connection         = new Connection( $config['mongo']['server'] );
+        $connection = new Connection( $config['mongo']['server'] );
 
-        $this->dm           = DocumentManager::create( $connection, $doctrine_config );
-        $http               = new Http();
-        
-        $api                = new $config['api_wrapper']( $this->dm, $config, $http );
-        $this->badge_factory= new BadgeFactory( $this->dm, $config['badges'] );
-        $gamificator        = new Gamificator( $api, $this->badge_factory->getBadges() );
-
-        $gamificator->gamify();
-
-        $this->updateBadgesOutOfDate();
-
-        $this->dm->flush();
+        $this->dm = DocumentManager::create( $connection, $doctrine_config );
     }
 
     protected function updateBadgesOutOfDate()
     {
-        $inactive_badges            = $this->badge_factory->getInactiveBadges();
+        $inactive_badges = $this->badge_factory->getInactiveBadges();
 
         if ( !empty( $inactive_badges) )
         {
-            $badge_giver                = new BadgeGiver();
-            $commits                    = $this->dm->getRepository( '\CodingPride\Document\Commit' )->findAll();
-            $badge_giver->giveBadges( $commits, $inactive_badges );
+            $commits = $this->dm->getRepository( '\CodingPride\Document\Commit' )->findAll();
+            $this->badge_giver->giveBadges( $commits, $inactive_badges );
             foreach ( $inactive_badges as $badge )
             {
                 $badge->setActive( 1 );

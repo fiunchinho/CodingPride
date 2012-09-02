@@ -14,10 +14,6 @@ use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ODM\MongoDB\Mapping\Driver\AnnotationDriver;
 use CodingPride\Source\GithubCommitApiWrapper;
 use CodingPride\BadgeFactory;
-use CodingPride\Gamificator;
-
-//use Monolog\Logger;
-//use Monolog\Handler\StreamHandler;
 
 class ImportCommits extends Command
 {
@@ -31,26 +27,15 @@ class ImportCommits extends Command
 
     protected function execute( InputInterface $input, OutputInterface $output )
     {
-        $config             = json_decode( file_get_contents( __DIR__ . '/config.json' ) , true );
-
         echo "Importando los commits viejos... \n\n";
 
-        AnnotationDriver::registerAnnotationClasses();
+        $config             = json_decode( file_get_contents( __DIR__ . '/config.json' ) , true );
 
-        $doctrine_config = new Configuration();
-        $doctrine_config->setProxyDir( __DIR__ . '/Proxy' );
-        $doctrine_config->setProxyNamespace( 'Proxy' );
-        $doctrine_config->setHydratorDir( __DIR__ . '/Hydrator' );
-        $doctrine_config->setHydratorNamespace( 'Hydrator' ) ;
-        $doctrine_config->setMetadataDriverImpl( AnnotationDriver::create('.') );
-        $doctrine_config->setDefaultDB( $config['mongo']['options']['db'] );
-        $connection         = new Connection( $config['mongo']['server'] );
+        $this->createDatabaseManager( $config );
+        
+        $api                = new $config['api_wrapper']( $this->dm, $config, new \Guzzle\Http\Client() );
 
-        $document_manager   = DocumentManager::create( $connection, $doctrine_config );
-        $http               = new Http();
-        $api                = new $config['api_wrapper']( $document_manager, $config, $http );
-
-        $oldest_commit      = $document_manager->getRepository( '\CodingPride\Document\Commit' )->findBy( array(), array( 'date' => 'asc' ), 1 );
+        $oldest_commit      = $this->dm->getRepository( '\CodingPride\Document\Commit' )->findBy( array(), array( 'date' => 'asc' ), 1 );
         $params             = array();
 
         if ( $oldest_commit->hasNext() ) // It's not the first time this script runs.
@@ -58,7 +43,7 @@ class ImportCommits extends Command
             $params         = array( 'last_sha' => $oldest_commit->getNext()->getRevision() );    
         }
         
-        $rate_limit         = \CodingPride\Source\GithubApiWrapper::API_RATE_LIMIT;
+        $rate_limit         = $config['api_wrapper']::API_RATE_LIMIT;
 
         do
         {
@@ -79,5 +64,21 @@ class ImportCommits extends Command
         }
         
         echo "Termine de importar los commits \n\n";
+    }
+
+    private function createDatabaseManager( $config )
+    {
+        AnnotationDriver::registerAnnotationClasses();
+
+        $doctrine_config = new Configuration();
+        $doctrine_config->setProxyDir( __DIR__ . '/Proxy' );
+        $doctrine_config->setProxyNamespace( 'Proxy' );
+        $doctrine_config->setHydratorDir( __DIR__ . '/Hydrator' );
+        $doctrine_config->setHydratorNamespace( 'Hydrator' ) ;
+        $doctrine_config->setMetadataDriverImpl( AnnotationDriver::create('.') );
+        $doctrine_config->setDefaultDB( $config['mongo']['options']['db'] );
+        $connection = new Connection( $config['mongo']['server'] );
+
+        $this->dm = DocumentManager::create( $connection, $doctrine_config );
     }
 }

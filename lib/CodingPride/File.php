@@ -7,11 +7,8 @@ class File
 {
 	public function __construct( $path )
 	{
-		//$attributes 	= $xml->attributes();
-		//$this->path 	= $attributes['path'];
 		$this->path 	= $path;
 		$this->info 	= pathinfo( $this->path );
-		//$this->revision = $attributes['rev'];
 	}
 	public function getExtension()
 	{

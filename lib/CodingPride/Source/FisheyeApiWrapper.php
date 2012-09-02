@@ -3,32 +3,46 @@ namespace CodingPride\Source;
 
 class FisheyeApiWrapper extends AbstractApiWrapper
 {
-	const CONVERTER_CLASS_NAME = '\CodingPride\Source\FisheyeApiToCommitConverter';
+	const CONVERTER_CLASS_NAME 	= '\CodingPride\Source\FisheyeApiToCommitConverter';
+	const API_RATE_LIMIT		= 1000;
 
-	protected function getCommitRevisionIterator()
+	protected function getBaseUrl()
 	{
-		$api_response_as_string = $this->http->get( $this->getCommitListUrl() );
-		$array = json_decode( $api_response_as_string, true );
+		return $this->config['host'] . '/rest-service-fe/revisionData-v1/';
+	}
+
+	protected function getCommitRevisionIterator( $params )
+	{
+		$request				= $this->http->get( $this->getCommitListUrl( $params ) );
+		$request->setAuth( $this->config['login'], $this->config['password'] );
+		$response 				= $request->send();
+		$array 					= json_decode( $response->getBody( true ), true );
+
 		return new \ArrayIterator( $array['csid'] );
 	}
 
-	protected function setUpHttp()
+	protected function getCommitDetailsApiResponse( $revision )
 	{
-		$this->http->setContext(
-			array(
-				'Authorization: Basic ' . base64_encode( $this->config['login'] . ':' . $this->config['password'] )
-			)
-		);
-		return $this->http;
+		$request				= $this->http->get( $this->getCommitDetailsUrl( $revision ) );
+		$request->setAuth( $this->config['login'], $this->config['password'] );
+		$response 				= $request->send();
+		
+		return $response->getBody( true );
 	}
 
-	protected function getCommitListUrl()
+	protected function getCommitListUrl( $params )
 	{
-		return $this->config['host'] . '/rest-service-fe/revisionData-v1/changesetList/' . $this->config['repository'] . '.json' ;
+		$query_string = '?';
+		foreach ( $params as $param => $value )
+		{
+			$query_string .= $param . '=' . $value;
+		}
+
+		return 'changesetList/' . $this->config['repository'] . '.json' . $query_string;
 	}
 
 	protected function getCommitDetailsUrl( $revision )
 	{
-		return $this->config['host'] . '/rest-service-fe/revisionData-v1/changeset/' . $this->config['repository'] . '/' . $revision . '.json' ;
+		return 'changeset/' . $this->config['repository'] . '/' . $revision . '.json' ;
 	}
 }

@@ -1,5 +1,5 @@
 {
-    "hash": "e584be3c46985f95c9387fb47ba35213",
+    "hash": "99be7fa0fd6bceb87fb4a51701d8244a",
     "packages": [
         {
             "package": "doctrine/common",
@@ -16,12 +16,6 @@
         {
             "package": "doctrine/mongodb",
             "version": "dev-master",
-            "alias-pretty-version": "1.0.x-dev",
-            "alias-version": "1.0.9999999.9999999-dev"
-        },
-        {
-            "package": "doctrine/mongodb",
-            "version": "dev-master",
             "source-reference": "fdf44d850d7482b2cea7a0793d46999641c68e4f",
             "commit-date": "1344539108"
         },
@@ -32,6 +26,12 @@
             "commit-date": "1344881945"
         },
         {
+            "package": "guzzle/guzzle",
+            "version": "dev-master",
+            "source-reference": "c8dca691000945e1a149ea8dd932438907664fcb",
+            "commit-date": "1346459045"
+        },
+        {
             "package": "symfony/console",
             "version": "dev-master",
             "alias-pretty-version": "2.1.x-dev",
@@ -40,8 +40,20 @@
         {
             "package": "symfony/console",
             "version": "dev-master",
-            "source-reference": "3b66f1056f5ac37146d3b755964e8a43a205f2f5",
-            "commit-date": "1344349441"
+            "source-reference": "v2.1.0-RC2",
+            "commit-date": "1345643321"
+        },
+        {
+            "package": "symfony/event-dispatcher",
+            "version": "dev-master",
+            "alias-pretty-version": "2.1.x-dev",
+            "alias-version": "2.1.9999999.9999999-dev"
+        },
+        {
+            "package": "symfony/event-dispatcher",
+            "version": "dev-master",
+            "source-reference": "v2.1.0-RC2",
+            "commit-date": "1345643321"
         },
         {
             "package": "symfony/yaml",
@@ -52,8 +64,8 @@
         {
             "package": "symfony/yaml",
             "version": "dev-master",
-            "source-reference": "6b3eb66a7c4495dcaa35a64dd93c8ba8c29f35d8",
-            "commit-date": "1344325256"
+            "source-reference": "v2.1.0-RC2",
+            "commit-date": "1345643321"
         }
     ],
     "packages-dev": null,

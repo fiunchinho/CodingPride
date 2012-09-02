@@ -9,12 +9,14 @@ abstract class AbstractApiWrapper
 	protected $http;
 	protected $config;
 
+	abstract protected function getBaseUrl();
+
 	public function __construct( $database, $config, $http )
 	{
 		$this->_dm 					= $database;
 		$this->config 				= $config;
 		$this->http 				= $http;
-		$this->setUpHttp();
+		$this->http->setBaseUrl( $this->getBaseUrl() );
 	}
 
 	public function getLatestCommits( $params = array(), $max = 1000 )
@@ -22,14 +24,14 @@ abstract class AbstractApiWrapper
 		$commit_collection		= new \CodingPride\CommitList();
 		$commit_repository		= $this->_dm->getRepository( 'CodingPride\Document\Commit' );
 
-		$commit_revision_iterator		= $this->getCommitRevisionIterator( $params );
 		$converter = $this->getConverter();
+		$revisions = $this->getCommitRevisionIterator( $params );
 
-		foreach ( $commit_revision_iterator as $commit_info )
+		foreach ( $revisions as $revision )
 		{
-			$commit_details 	= $this->http->get( $this->getCommitDetailsUrl( $converter->getRevision( $commit_info ) ) );
-			$commit 			= $converter->convert( $commit_details );
-			$is_commit_new		= $commit_repository->create( $commit );
+			$api_response 	= $this->getCommitDetailsApiResponse( $converter->getRevision( $revision ) );
+			$commit 		= $converter->convert( $api_response );
+			$is_commit_new	= $commit_repository->create( $commit );
 
 			if ( $is_commit_new )
 			{
@@ -39,8 +41,6 @@ abstract class AbstractApiWrapper
 
 		return $commit_collection;
 	}
-
-	abstract protected function setUpHttp();
 
 	protected function getConverter()
 	{

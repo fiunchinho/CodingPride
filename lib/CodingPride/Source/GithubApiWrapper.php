@@ -6,16 +6,25 @@ class GithubApiWrapper extends AbstractApiWrapper
 	const CONVERTER_CLASS_NAME  = '\CodingPride\Source\GithubApiToCommitConverter';
 	const API_RATE_LIMIT		= 1000;
 	
+	public function getBaseUrl()
+	{
+		return 'https://api.github.com/repos/';
+	}
+
 	protected function getCommitRevisionIterator( $params )
 	{
-		$api_response_as_string = $this->http->get( $this->getCommitListUrl( $params ) );
-		$array = json_decode( $api_response_as_string, true );
+		$request 				= $this->http->get( $this->getCommitListUrl( $params ) );
+		$response 				= $request->send();
+		$array 					= json_decode( $response->getBody( true ), true );
 		return new \ArrayIterator( $array );
 	}
 
-	protected function setUpHttp()
+	protected function getCommitDetailsApiResponse( $sha )
 	{
-		return true;
+		$request				= $this->http->get( $this->getCommitDetailsUrl( $sha ) );
+		$response 				= $request->send();
+		
+		return $response->getBody( true );
 	}
 
 	protected function getCommitListUrl( $params )
@@ -26,12 +35,12 @@ class GithubApiWrapper extends AbstractApiWrapper
 			$query_string .= $param . '=' . $value;
 		}
 
-		return 'https://api.github.com/repos/' . $this->config['username'] . '/' . $this->config['repository'] . '/commits' . $query_string;
+		return $this->config['username'] . '/' . $this->config['repository'] . '/commits' . $query_string;
 	}
 
 	protected function getCommitDetailsUrl( $sha )
 	{
-		return 'https://api.github.com/repos/' . $this->config['username'] . '/' . $this->config['repository'] . '/commits/' . $sha;
+		return $this->config['username'] . '/' . $this->config['repository'] . '/commits/' . $sha;
 	}
 
 }
