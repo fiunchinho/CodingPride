@@ -2,8 +2,8 @@
 <?php
 require_once __DIR__ . '/../vendor/autoload.php';
 
-use CodingPride\GiveBadges;
-use CodingPride\ImportCommits;
+use CodingPride\Command\GiveBadges;
+use CodingPride\Command\ImportCommits;
 use Symfony\Component\Console\Application;
 
 $application = new Application();

@@ -8,6 +8,9 @@ class Commit
 {
 	/** @ODM\Id */
 	private $id;
+
+	/** @ODM\Int */
+	private $in_game = 0;
 	
 	/** @ODM\ReferenceOne(targetDocument="User") */
 	private $author;
@@ -151,6 +154,17 @@ class Commit
 	public function setAuthorUsername( $username )
 	{
 		$this->author_username = $username;
+		return $this;
+	}
+
+	public function getIn_game()
+	{
+		return $this->in_game;
+	}
+
+	public function setIn_game( $in_game )
+	{
+		$this->in_game = $in_game;
 		return $this;
 	}
 

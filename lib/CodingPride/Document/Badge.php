@@ -70,6 +70,7 @@ class Badge
 				return false;
 			}
 		}
+		
 		return true;
 	}
 	public function getLast_pagination_param()

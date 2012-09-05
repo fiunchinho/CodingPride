@@ -15,13 +15,14 @@ class BadgeGiver
 	{
 		foreach ( $badges as $badge )
 		{
+			$commit->setIn_game( 1 );
 			if ( $badge->check( $commit ) )
 			{
 				$author = $commit->getAuthor();
 				$author->addBadge( $badge );
 			}
 
-			$badge->setLast_pagination_param( $commit->getRevision() );
+			//$badge->setLast_pagination_param( $commit->getRevision() );
 		}
 	}
 }
