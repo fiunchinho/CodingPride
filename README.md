@@ -17,7 +17,7 @@ To start using CodingPride you just need to follow two simple steps. If you pref
 ### 1. Import old commits from your repository
 CodingPride saves in its database all the commits that you and your colleagues have made since the repository was created. This way, it can give badges using this historical data. To import these commits, you just have to run the following command:
 
-    bin/CodingPride badges:install
+    bin/CodingPride badges:import
 
 Be aware! CodingPride will try to fetch ALL THE COMMITS that have been made until the very moment you execute that command, so if your repository has a high number of commits, this will take a while. Most of the times, your repository will contain a higher number of commits, than the allowed API rate limit. For example, Github limits its API usage to 5000 requests per hour. This means that if your repository has more than 5000 commits, CodingPride won't be able to fetch them in only one execution. To finish the process, execute this command every 60 minutes until it says it is done importing commits. To make it easier, you can just program a cron job in your machine to execute this process every X minutes. Don't worry, once it finishes the process, nothing happens if you run it again.
 
