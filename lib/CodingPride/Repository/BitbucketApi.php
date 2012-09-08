@@ -4,7 +4,8 @@ namespace CodingPride\Repository;
 class BitbucketApi extends AbstractApi
 {
 	const CONVERTER_CLASS_NAME 	= '\CodingPride\Repository\BitbucketConverter';
-	const API_RATE_LIMIT		= 150;
+	const API_RATE_LIMIT		= 1000;
+	const NUMBER_OF_API_CALLS_NEEDED_TO_GET_COMMIT_LIST = 1;
 
 	protected function getBaseUrl()
 	{
@@ -18,7 +19,13 @@ class BitbucketApi extends AbstractApi
 		$response 				= $request->send();
 		$array 					= json_decode( $response->getBody( true ), true );
 
-		return new \ArrayIterator( array_reverse( $array['changesets'] ) );
+		//var_dump($array);
+		if ( count( $array ) > 0 )
+		{
+			return new \ArrayIterator( array_reverse( $array['changesets'] ) );
+		}
+
+		return new \ArrayIterator();
 	}
 
 	protected function getCommitDetailsApiResponse( $sha )
@@ -30,9 +37,18 @@ class BitbucketApi extends AbstractApi
 		return $response->getBody( true );
 	}
 
-	protected function getParamsForApiPagination( $last_commit )
+	protected function getParamsForApiPagination( $latest_commits )
 	{
-		return array( 'start' => $last_commit->getRevision() );
+		$params = array();
+		$number_of_commits = count( $latest_commits );
+
+		if ( $number_of_commits > 0 )
+        {
+            $oldest_commit = $latest_commits[$number_of_commits - 1];
+			$params = array( 'start' => $oldest_commit->getRevision() );
+		}
+
+		return $params;
 	}
 
 	protected function getCommitListUrl( $params )

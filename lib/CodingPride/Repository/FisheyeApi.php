@@ -5,6 +5,7 @@ class FisheyeApi extends AbstractApi
 {
 	const CONVERTER_CLASS_NAME 	= '\CodingPride\Repository\FisheyeConverter';
 	const API_RATE_LIMIT		= 1000;
+	const NUMBER_OF_API_CALLS_NEEDED_TO_GET_COMMIT_LIST = 1;
 
 	protected function getBaseUrl()
 	{
@@ -18,7 +19,12 @@ class FisheyeApi extends AbstractApi
 		$response 				= $request->send();
 		$array 					= json_decode( $response->getBody( true ), true );
 
-		return new \ArrayIterator( $array['csid'] );
+		if ( count( $array ) > 0 )
+		{
+			return new \ArrayIterator( $array['csid'] );	
+		}
+		
+		return new \ArrayIterator();
 	}
 
 	protected function getCommitDetailsApiResponse( $revision )
@@ -30,9 +36,18 @@ class FisheyeApi extends AbstractApi
 		return $response->getBody( true );
 	}
 
-	protected function getParamsForApiPagination( $last_commit )
+	protected function getParamsForApiPagination( $latest_commits )
 	{
-		return array( 'end' => $oldest_commit->getDate() );
+		$params = array();
+		$number_of_commits = count( $latest_commits );
+
+		if ( $number_of_commits > 0 )
+        {
+            $oldest_commit = $latest_commits[$number_of_commits - 1];
+			$params = array( 'end' => $oldest_commit->getDate()->format( 'Y-m-d' ) );
+		}
+
+		return $params;
 	}
 
 	protected function getCommitListUrl( $params )

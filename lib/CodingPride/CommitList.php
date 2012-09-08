@@ -74,4 +74,9 @@ class CommitList implements \ArrayAccess, \Iterator, \Countable
         return $this;
     }
 
+    public function combine( CommitList $commits )
+    {
+        $this->commits = array_merge( $this->commits, $commits->commits );
+    }
+
 }

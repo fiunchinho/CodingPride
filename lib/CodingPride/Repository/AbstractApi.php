@@ -44,27 +44,28 @@ abstract class AbstractApi extends Repository
 	public function getCommits()
 	{
 		$params = array();
+		$commits = new \CodingPride\CommitList();
 		$rate_limit = static::API_RATE_LIMIT;
 
 		do
         {
             $latest_commits     = $this->getCommitList( $params );
+            $params             = $this->getParamsForApiPagination( $latest_commits );
 
             $number_of_commits  = count( $latest_commits );
-            $rate_limit         = $rate_limit - $number_of_commits - 1;
-            if ( $number_of_commits > 0 )
-            {
-                $oldest_commit      = $latest_commits[$number_of_commits - 1];
-                $params             = $this->getParamsForApiPagination( $oldest_commit );
-            }
-            
-        } while( $rate_limit > 0 && $number_of_commits > 0 ) ;
+            $rate_limit         = $rate_limit - $number_of_commits - static::NUMBER_OF_API_CALLS_NEEDED_TO_GET_COMMIT_LIST;
 
-        if ( $rate_limit <= 0 )
-        {
-        	throw new \Exception( "Error: API Limit Exceeded" );
+            $commits->combine( $latest_commits );
+
+	        if ( $rate_limit <= 0 )
+	        {
+	        	throw new ApiUsageLimitReachedException( "Error: API Limit Exceeded" );
+	        }
         }
+        while( $number_of_commits > 0 ) ;
 
-        return $latest_commits;
+        return $commits;
 	}
 }
+
+class ApiUsageLimitReachedException extends \Exception{}
