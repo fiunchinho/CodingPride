@@ -15,9 +15,7 @@
         },
         {
             "package": "doctrine/mongodb",
-            "version": "dev-master",
-            "source-reference": "fdf44d850d7482b2cea7a0793d46999641c68e4f",
-            "commit-date": "1344539108"
+            "version": "1.0.0-BETA1"
         },
         {
             "package": "doctrine/mongodb-odm",
@@ -28,44 +26,36 @@
         {
             "package": "guzzle/guzzle",
             "version": "dev-master",
-            "source-reference": "c8dca691000945e1a149ea8dd932438907664fcb",
-            "commit-date": "1346459045"
+            "source-reference": "e850c7ddba1d08157b9628f6dfed7626ef4407df",
+            "commit-date": "1347038647"
         },
         {
             "package": "symfony/console",
             "version": "dev-master",
-            "alias-pretty-version": "2.1.x-dev",
-            "alias-version": "2.1.9999999.9999999-dev"
+            "alias-pretty-version": "2.2.x-dev",
+            "alias-version": "2.2.9999999.9999999-dev"
         },
         {
             "package": "symfony/console",
             "version": "dev-master",
-            "source-reference": "v2.1.0-RC2",
-            "commit-date": "1345643321"
+            "source-reference": "c8dc6870f1375b43dc8fe0df30bb47abc350076b",
+            "commit-date": "1346957130"
         },
         {
             "package": "symfony/event-dispatcher",
-            "version": "dev-master",
-            "alias-pretty-version": "2.1.x-dev",
-            "alias-version": "2.1.9999999.9999999-dev"
-        },
-        {
-            "package": "symfony/event-dispatcher",
-            "version": "dev-master",
-            "source-reference": "v2.1.0-RC2",
-            "commit-date": "1345643321"
+            "version": "v2.1.0"
         },
         {
             "package": "symfony/yaml",
             "version": "dev-master",
-            "alias-pretty-version": "2.1.x-dev",
-            "alias-version": "2.1.9999999.9999999-dev"
+            "alias-pretty-version": "2.2.x-dev",
+            "alias-version": "2.2.9999999.9999999-dev"
         },
         {
             "package": "symfony/yaml",
             "version": "dev-master",
-            "source-reference": "v2.1.0-RC2",
-            "commit-date": "1345643321"
+            "source-reference": "826fe43a6e3b330d79e711d2fc02540af8d10f61",
+            "commit-date": "1346957130"
         }
     ],
     "packages-dev": null,
