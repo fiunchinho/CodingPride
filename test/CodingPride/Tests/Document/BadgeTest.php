@@ -1,5 +1,5 @@
 <?php
-namespace CodingPride\Tests;
+namespace CodingPride\Tests\Document;
 
 class BadgeTest extends \PHPUnit_Framework_TestCase
 {

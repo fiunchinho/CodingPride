@@ -1,10 +1,7 @@
 <?php
 namespace CodingPride\Tests\Repository;
 
-require_once __DIR__ . '/AbstractApi.php';
-require_once __DIR__ . '/FisheyeApiLowLimit.php';
-
-class FisheyeApiTest extends AbstractApiTest
+class FisheyeApiTest extends AbstractApi
 {
 	public function getWrapperName()
 	{

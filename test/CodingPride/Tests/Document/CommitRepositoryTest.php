@@ -1,9 +1,7 @@
 <?php
-namespace CodingPride\Tests;
+namespace CodingPride\Tests\Document;
 
-require_once __DIR__ . '/OdmTestCase.php';
-
-class CommitRepositoryTest extends \CodingPride\Tests\OdmTestCase
+class CommitRepositoryTest extends \CodingPride\Tests\Document\OdmTestCase
 {
 	public function testCreatingCommitThatAlreadyExistsReturnsFalse()
 	{

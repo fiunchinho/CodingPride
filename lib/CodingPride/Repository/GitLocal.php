@@ -28,7 +28,7 @@ class GitLocal extends Repository
 
 		$converter 				= $this->getConverter();
 
-		$commits			= $this->cleanCommitsOutput( shell_exec( $this->getGitLogCommand() ) );	
+		$commits				= $this->cleanCommitsOutput( $this->getCommitsFromConsole() );	
 		
 		foreach ( $commits as $commit_raw )
 		{
@@ -49,7 +49,7 @@ class GitLocal extends Repository
 	 * This method split the string to get the commit data.
 	 *
 	 */
-	private function cleanCommitsOutput( $commits_output )
+	protected function cleanCommitsOutput( $commits_output )
 	{
 		$explode_pipes 	= function( $arr ){ return explode( '||', $arr ); };
 		$commits 		= array_map( $explode_pipes, explode( self::COMMIT_START_PLACEHOLDER, $commits_output ) );
@@ -62,13 +62,8 @@ class GitLocal extends Repository
 	 * @return string The git command
 	 *
 	 */
-	private function getGitLogCommand()
+	protected function getCommitsFromConsole()
 	{
-		return 'git --git-dir=' . $this->config['repository'] . ' log --name-only --pretty=format:"' . self::COMMIT_START_PLACEHOLDER . ' %H || %an || %ad || %s\ ||"';
-	}
-
-	private function getLatestCommitsFromConsole()
-	{
-		return 'git --git-dir=' . $this->config['repository'] . ' log --name-only --pretty=format:"' . self::COMMIT_START_PLACEHOLDER . ' %H || %an || %ad || %s\ ||" -30';
+		return shell_exec( 'git --git-dir=' . $this->config['repository'] . ' log --name-only --pretty=format:"' . self::COMMIT_START_PLACEHOLDER . ' %H || %an || %ad || %s ||"' );
 	}
 }

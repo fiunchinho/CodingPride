@@ -1,7 +1,7 @@
 <?php
 namespace CodingPride\Tests\Repository;
 
-class AbstractApiTest extends \PHPUnit_Framework_TestCase
+class AbstractApi extends \PHPUnit_Framework_TestCase
 {
 	public function testGetLatestCommitsWhenAllOfThemAreNew()
 	{

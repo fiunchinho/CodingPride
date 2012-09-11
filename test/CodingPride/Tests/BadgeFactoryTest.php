@@ -1,9 +1,6 @@
 <?php
 namespace CodingPride\Tests;
 
-require_once __DIR__ . '/DocumentManagerMock.php';
-require_once __DIR__ . '/ConnectionMock.php';
-
 class BadgeFactoryTest extends \PHPUnit_Framework_TestCase
 {
 	public function testBadgesAreCreatedAndTheyAreActive()

@@ -1,5 +1,5 @@
 <?php
-namespace CodingPride\Repository\Tests;
+namespace CodingPride\Tests\Repository;
 
 class BitbucketConverterTest extends \PHPUnit_Framework_TestCase
 {

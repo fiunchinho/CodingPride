@@ -7,7 +7,15 @@ class GithubConverter implements ConverterInterface
 	{
 		$commit_info 	= json_decode( $commit_info_from_api, true );
 		$commit = new \CodingPride\Document\Commit();
-		$commit->setAuthorUsername( $commit_info['author']['login'] );
+		if ( empty( $commit_info['author']['login'] ) )
+		{
+			$commit->setAuthorUsername( $commit_info['commit']['author']['name'] );
+		}
+		else
+		{
+			$commit->setAuthorUsername( $commit_info['author']['login'] );
+		}
+		
 		$commit->setDate( new \DateTime( $commit_info['commit']['author']['date'] ) );
 		$commit->setRevision( $commit_info['sha'] );
 		$commit->setComment( $commit_info['commit']['message'] );

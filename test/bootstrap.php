@@ -12,4 +12,4 @@ EOM;
     exit(1);
 }
 
-$loader->add('CodingPride\Test', __DIR__);
+$loader->add('CodingPride\Tests', __DIR__);

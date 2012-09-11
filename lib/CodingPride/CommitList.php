@@ -8,7 +8,6 @@ class CommitList implements \ArrayAccess, \Iterator, \Countable
 	public function __construct()
 	{
 		$this->commits  = array();
-        //$this->_dm      = $database_manager;
 	}
 
 	public function offsetSet( $offset, $value )
@@ -68,12 +67,10 @@ class CommitList implements \ArrayAccess, \Iterator, \Countable
         return count($this->commits);
     }
 
-    public function reverseSort()
-    {
-        $this->commits = array_reverse( $this->commits );
-        return $this;
-    }
-
+    /**
+     * Combines the two CommitList objects in only one.
+     *
+     */
     public function combine( CommitList $commits )
     {
         $this->commits = array_merge( $this->commits, $commits->commits );

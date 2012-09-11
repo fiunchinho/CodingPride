@@ -1,5 +1,5 @@
 <?php
-namespace CodingPride\Repository\Tests;
+namespace CodingPride\Tests\Repository;
 
 class FisheyeConverterTest extends \PHPUnit_Framework_TestCase
 {

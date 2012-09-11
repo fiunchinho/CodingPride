@@ -9,6 +9,13 @@ use Doctrine\ODM\MongoDB\DocumentRepository;
  */
 class CommitRepository extends DocumentRepository
 {
+	/**
+	 * Tries to save in database the given commit.
+	 * If it's already there, it returns false.
+	 *
+	 * @param Commit $commit The commit to create
+	 * @return mixed $commit The commit that just created
+	 */
 	public function create( Commit $commit )
 	{
 		$commit_from_database = $this->findOneBy( array( 'revision' => $commit->getRevision() ) );

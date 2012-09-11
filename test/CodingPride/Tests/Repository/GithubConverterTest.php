@@ -1,5 +1,5 @@
 <?php
-namespace CodingPride\Repository\Tests;
+namespace CodingPride\Tests\Repository;
 
 class GithubConverterTest extends \PHPUnit_Framework_TestCase
 {

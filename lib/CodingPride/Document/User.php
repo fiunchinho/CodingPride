@@ -2,6 +2,7 @@
 namespace CodingPride\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /** @ODM\Document(collection="user", repositoryClass="CodingPride\Document\UserRepository") */
 class User
@@ -21,27 +22,24 @@ class User
 		{
 			$this->setUsername( $username );
 		}
-		$this->badges = new \Doctrine\Common\Collections\ArrayCollection();
+		$this->badges = new ArrayCollection();
 	}
 
 	/**
-	 * There's probably a better solution for this instead of calling iterator_to_array.
+	 * Filters the given array of badges, to leave just the badges that
+	 * the user didn't earn yet.
+	 *
+	 * @param array $badges All the badges in the system
+	 * @return array $badges The badges that the user didnt earn yet
 	 *
 	 */
 	public function getUserBadgesToAchieve( array $badges )
 	{
-		//var_dump( $badges, empty( $this->badges ), $this->badges  );die;
-
 		if ( !empty( $this->badges ) )
 		{
 			foreach( $this->getBadges() as $badge )
 			{
 				unset( $badges[$badge->getName()] );
-				/*
-				if ( in_array( $badge,  iterator_to_array( $this->badges ) ) )
-				{
-					unset( $badges[$key] );
-				}*/
 			}
 		}
 

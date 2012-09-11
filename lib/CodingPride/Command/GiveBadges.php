@@ -7,36 +7,39 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-use Doctrine\MongoDB\Connection;
-use Doctrine\Common\Annotations\AnnotationReader;
-use Doctrine\ODM\MongoDB\Configuration;
-use Doctrine\ODM\MongoDB\DocumentManager;
-use Doctrine\ODM\MongoDB\Mapping\Driver\AnnotationDriver;
-use CodingPride\Source\GithubCommitApiWrapper;
 use CodingPride\BadgeFactory;
 use CodingPride\BadgeGiver;
 
-class GiveBadges extends Command
+class GiveBadges extends CodingPride
 {
     protected function configure()
     {
         $this
             ->setName( 'badges:give' )
-            ->setDescription( 'Give badges for latest commits. It connects to the API and gives badges based on these latest commits.' )
+            ->setDescription( 'Give badges for latest commits in the database.' )
         ;
     }
 
+    /**
+     * Reads badges from the config file and insert them into the database.
+     * Get latest commits from database and give badges for those commits.
+     * Take badges that are out of date and go through the commits for those badges.
+     *
+     */
     protected function execute( InputInterface $input, OutputInterface $output )
     {
-        $config             = json_decode( file_get_contents( __DIR__ . '/../config.json' ) , true );
-        $this->createDatabaseManager( $config );
+        $this->config           = $this->getConfig();
+        $this->createDatabaseManager( $this->config );
+        $this->badge_factory    = new BadgeFactory( $this->dm, $this->config['badges'] );
+        $this->badge_giver      = new BadgeGiver();
 
-        $api                = new $config['api_wrapper']( $this->dm, $config, new \Guzzle\Http\Client() );
-        $this->badge_factory= new BadgeFactory( $this->dm, $config['badges'] );
+        $this->activateBadgesIfFirstTime();
 
-        $this->badge_giver  = new BadgeGiver();
-        
-        $commits = $this->dm->getRepository( '\CodingPride\Document\Commit' )->findBy( array( 'in_game' => 0 ), array( 'date' => 'asc' ) );
+        $commits = $this
+            ->dm
+            ->getRepository( '\CodingPride\Document\Commit' )
+            ->findBy( array( 'in_game' => 0 ), array( 'date' => 'asc' ) );
+
         $this->badge_giver->giveBadges( $commits, $this->badge_factory->getBadges() );
 
         $this->updateBadgesOutOfDate();
@@ -44,34 +47,39 @@ class GiveBadges extends Command
         $this->dm->flush();
     }
 
-    protected function createDatabaseManager( $config )
-    {
-        AnnotationDriver::registerAnnotationClasses();
-
-        $doctrine_config = new Configuration();
-        $doctrine_config->setProxyDir( __DIR__ . '/../Proxy' );
-        $doctrine_config->setProxyNamespace( 'Proxy' );
-        $doctrine_config->setHydratorDir( __DIR__ . '/../Hydrator' );
-        $doctrine_config->setHydratorNamespace( 'Hydrator' ) ;
-        $doctrine_config->setMetadataDriverImpl( AnnotationDriver::create('.') );
-        $doctrine_config->setDefaultDB( $config['mongo']['options']['db'] );
-        $connection = new Connection( $config['mongo']['server'] );
-
-        $this->dm = DocumentManager::create( $connection, $doctrine_config );
-    }
-
+    /**
+     * Everytime we run this script, we check if we found a new badge in the config file.
+     * If we did, we need to go through all the commits and check if that commit
+     * has to be given. When we check all the commits, we can activate it so it is
+     * calculated normally.
+     *
+     */
     protected function updateBadgesOutOfDate()
     {
         $inactive_badges = $this->badge_factory->getInactiveBadges();
 
         if ( !empty( $inactive_badges) )
         {
-            $commits = $this->dm->getRepository( '\CodingPride\Document\Commit' )->findBy( array( 'in_game' => 1 ), array( 'date' => 'asc' ) );
+            $commits = $this
+                ->dm
+                ->getRepository( '\CodingPride\Document\Commit' )
+                ->findBy( array( 'in_game' => 1 ), array( 'date' => 'asc' ) );
+
             $this->badge_giver->giveBadges( $commits, $inactive_badges );
-            foreach ( $inactive_badges as $badge )
-            {
-                $badge->setActive( 1 );
-            }
+            $inactive_badges->activateAll();
+        }
+    }
+
+    /**
+     * If it's the first time that we run the script, we don't have to wait for the recent added badges
+     * to be updated. So we just put the badges active to start giving badges right away.
+     *
+     */
+    protected function activateBadgesIfFirstTime()
+    {
+        if ( 0 == count( $this->dm->getRepository( '\CodingPride\Document\Commit' )->findAll() ) )
+        {
+            $badges = $this->badge_factory->getInactiveBadges()->activateAll();
         }
     }
 }

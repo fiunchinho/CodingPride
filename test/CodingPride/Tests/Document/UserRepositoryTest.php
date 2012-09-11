@@ -1,8 +1,5 @@
 <?php
-namespace CodingPride\Tests;
-
-require_once __DIR__ . '/OdmTestCase.php';
-
+namespace CodingPride\Tests\Document;
 
 class UserRepositoryTest extends OdmTestCase
 {

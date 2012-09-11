@@ -1,10 +1,7 @@
 <?php
 namespace CodingPride\Tests\Repository;
 
-require_once __DIR__ . '/AbstractApi.php';
-require_once __DIR__ . '/GithubApiLowLimit.php';
-
-class GithubApiTest extends AbstractApiTest
+class GithubApiTest extends AbstractApi
 {
 	public function getWrapperName()
 	{

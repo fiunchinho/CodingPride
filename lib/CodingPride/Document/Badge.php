@@ -4,6 +4,9 @@ namespace CodingPride\Document;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 
 /**
+ * This object represents a badge in the system. To earn a badge, you need to match all
+ * the conditions that this badge needs. The conditions for a badge are not saved in database.
+ *
  * @ODM\Document(collection="badge", repositoryClass="CodingPride\Document\BadgeRepository")
  */
 class Badge
@@ -61,6 +64,14 @@ class Badge
 	{
 		return $this->conditions;
 	}
+
+	/**
+	 * Checks if the given commit deserves this badge
+	 *
+	 * @param Commit $commit The commit to check
+	 * @return bool
+	 *
+	 */
 	public function check( Commit $commit )
 	{
 		foreach ( $this->getConditions() as $condition )

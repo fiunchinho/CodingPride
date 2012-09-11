@@ -41,10 +41,12 @@ class SvnLocal extends Repository
 	/**
 	 * Executes a console command to get info from latest commits.
 	 * It uses the following PHP extension: http://www.php.net/manual/es/book.svn.php
+	 * You can install it in Ubuntu with:
+	 * sudo apt-get install libsvn-dev php5-svn
 	 *
 	 * @return string The console output
 	 */
-	private function getCommitsFromConsole()
+	protected function getCommitsFromConsole()
 	{
 		return svn_log( $this->config['repository'], SVN_REVISION_HEAD, SVN_REVISION_INITIAL );
 	}

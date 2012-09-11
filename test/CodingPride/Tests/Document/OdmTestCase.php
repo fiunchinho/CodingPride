@@ -1,10 +1,7 @@
 <?php
-namespace CodingPride\Tests;
+namespace CodingPride\Tests\Document;
 
 use Doctrine\ODM\MongoDB\Configuration;
-
-require_once __DIR__ . '/DocumentManagerMock.php';
-require_once __DIR__ . '/ConnectionMock.php';
 
 class OdmTestCase extends \PHPUnit_Framework_TestCase
 {

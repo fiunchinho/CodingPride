@@ -1,11 +1,8 @@
 <?php
-namespace CodingPride\Tests;
+namespace CodingPride\Tests\Document;
 
-require_once __DIR__ . '/OdmTestCase.php';
-
-class BadgeRepositoryTest extends \CodingPride\Tests\OdmTestCase
+class BadgeRepositoryTest extends OdmTestCase
 {
-	
 	public function testCreateBadgeWhenItAlreadyExists()
 	{
 		$badge = $this->getMock( '\CodingPride\Document\Badge', array( 'setConditions' ) );
@@ -24,7 +21,6 @@ class BadgeRepositoryTest extends \CodingPride\Tests\OdmTestCase
 		$this->assertSame( $badge, $created_badge, 'The badge was not created right' );
 	}
 	
-
 	public function testCreateBadgeWhenItDoesNotExist()
 	{
 		$expected_badge_name = 'badge_name';

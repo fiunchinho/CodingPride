@@ -1,10 +1,7 @@
 <?php
 namespace CodingPride\Tests\Repository;
 
-require_once __DIR__ . '/AbstractApi.php';
-require_once __DIR__ . '/BitbucketApiLowLimit.php';
-
-class BitbucketApiTest extends AbstractApiTest
+class BitbucketApiTest extends AbstractApi
 {
 	public function getWrapperName()
 	{

@@ -11,29 +11,16 @@ use Doctrine\ODM\MongoDB\DocumentRepository;
  */
 class BadgeRepository extends DocumentRepository
 {
-	/*
-	const DEFAULT_BADGE_DATE = '2012-01-01';
-
-	public function getBadgesOutOfDate( $badges_to_calculate, \DateTime $date = null )
-	{
-		$query 		= $this->dm->createQueryBuilder( 'CodingPride\Document\Badge' );
-		$badges 	= $query->field( 'last_date_checked' )->lte( new \DateTime() )->getQuery()->execute();
-		foreach ( $badges as $badge )
-		{
-			$badge->setConditions( $badges_to_calculate[$badge->getName()]['conditions'] );
-		}
-		return $badges;
-	}
-
-	public function getLastPaginationParam()
-	{
-		$badges	= $this->findAll( array( 'active' => 1 ), array(), 1 );
-		$badge 	= $badges->getNext();
-		return $badge->getLast_pagination_param();
-	}
-
-	*/
-
+	/**
+	 * Tries to find the badge in database. If it's not there, it creates it.
+	 * Afterwards, sets the conditions for that badge.
+	 *
+	 * @param string $badge_name The name of the badge
+	 * @param array $conditions The conditions that needs to match this badge
+	 * @param string $description A badge description
+	 *
+	 * @return Badge $badge
+	 */
 	public function create( $badge_name, $conditions, $description, $pagination_param = '' )
 	{
 		$badge = $this->findOneByName( $badge_name );
@@ -45,13 +32,10 @@ class BadgeRepository extends DocumentRepository
 			$badge->setLast_pagination_param( $pagination_param );
 			$badge->setDescription( $description );
 			$this->dm->persist( $badge );
-			//var_dump( "Persistiendo " . $badge->getName() );	
 		}
 
 		$badge->setConditions( $conditions );
 
 		return $badge;
 	}
-
-	
 }
