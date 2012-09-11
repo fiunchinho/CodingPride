@@ -57,7 +57,7 @@ class GitLocalTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals( 1, count( $commits_collection ), 'The number of commits parsed from console is wrong.' );
     }
 
-    public function getCommitListFromConsole()
+    public static function getCommitListFromConsole()
     {
         return <<<OUTPUT
 {-start-} fa40bd0143fc2bbfab87c2d691ee3fe010b5922d || fiunchinho || Thu Aug 30 23:46:35 2012 +0200 || Doing travis pass\ ||

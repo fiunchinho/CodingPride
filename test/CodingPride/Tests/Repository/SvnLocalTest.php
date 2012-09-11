@@ -57,7 +57,7 @@ class SvnLocalTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals( 1, count( $commits_collection ), 'The number of commits parsed from console is wrong.' );
     }
 
-    public function getCommitListFromConsole()
+    public static function getCommitListFromConsole()
     {
         return array(
             array(
