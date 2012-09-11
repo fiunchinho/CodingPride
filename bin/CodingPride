@@ -4,9 +4,12 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 use CodingPride\Command\GiveBadges;
 use CodingPride\Command\ImportCommits;
+use CodingPride\Command\RemoveBadge;
+
 use Symfony\Component\Console\Application;
 
 $application = new Application();
 $application->add( new GiveBadges() );
 $application->add( new ImportCommits() );
+$application->add( new RemoveBadge() );
 $application->run();

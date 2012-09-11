@@ -1,21 +1,31 @@
 <?php
 namespace CodingPride\Condition;
 
-//require_once 'ConditionInterface.php';
-
-class ChangeOldFileCondition implements ConditionInterface
+class ChangeOldFileCondition extends AbstractDatabaseAwareCondition
 {
-	public $file_extension;
+	const DAYS_WIHTOUT_COMMIT = 7;
 
 	public function check( \CodingPride\Document\Commit $commit )
 	{
 		foreach ( $commit->getFiles() as $file )
 		{
-			if ( $this->time_without_changes <= $file->getLastModified() - $now )
+			$criteria = array(
+				'date' 		=> array( '$lt' 		=> $commit->getDate() ),
+				'files' 	=> array( '$elemMatch' 	=> array( 'path' => $file->getPath() ) )
+			);
+			$commits_with_this_file = $this->_dm
+				->getRepository( '\CodingPride\Document\Commit' )
+				->findBy( $criteria );
+			
+			if ( $commits_with_this_file->hasNext() )
 			{
-				return true;
+				$commit_to_check_against = $commits_with_this_file->getNext();
+				if ( $commit->getDate()->diff( $commit_to_check_against->getDate() )->days >= self::DAYS_WIHTOUT_COMMIT )
+				{
+					return true;
+				}
 			}
+			return false;			
 		}
-		return false;
 	}
 }

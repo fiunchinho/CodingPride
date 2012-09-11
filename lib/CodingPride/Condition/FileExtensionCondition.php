@@ -1,9 +1,7 @@
 <?php
 namespace CodingPride\Condition;
 
-//require_once 'ConditionInterface.php';
-
-class FileExtensionCondition implements ConditionInterface
+abstract class FileExtensionCondition implements ConditionInterface
 {
 	public $file_extension;
 

@@ -12,7 +12,7 @@ class Commit
 	/** @ODM\Int */
 	private $in_game = 0;
 	
-	/** @ODM\ReferenceOne(targetDocument="User") */
+	/** @ODM\ReferenceOne(targetDocument="User", simple=true) */
 	private $author;
 
 	private $author_username;
@@ -88,6 +88,8 @@ class Commit
 	public function setAuthor( User $author )
 	{
 		$this->author = $author;
+		$author->addCommit( $this );
+		
 		return $this;
 	}
 

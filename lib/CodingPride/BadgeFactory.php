@@ -44,7 +44,7 @@ class BadgeFactory
 		foreach ( $conditions_names as $key => $condition_name )
 		{
 			$class_name 	= '\\CodingPride\\Condition\\' . $condition_name;
-			$conditions[] 	= new $class_name();
+			$conditions[] 	= new $class_name( $this->_dm );
 		}
 
 		return $conditions;

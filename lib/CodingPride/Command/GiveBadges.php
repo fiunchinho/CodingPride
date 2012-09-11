@@ -79,7 +79,7 @@ class GiveBadges extends CodingPride
     {
         if ( 0 == count( $this->dm->getRepository( '\CodingPride\Document\Commit' )->findAll() ) )
         {
-            $badges = $this->badge_factory->getInactiveBadges()->activateAll();
+            $this->badge_factory->getInactiveBadges()->activateAll();
         }
     }
 }

@@ -13,8 +13,11 @@ class User
 	/** @ODM\String */
 	private $username;
 
-	/** @ODM\ReferenceMany(targetDocument="Badge", cascade="all") */
+	/** @ODM\ReferenceMany(targetDocument="Badge", cascade="all", simple=true) */
 	protected $badges;
+
+	/** @ODM\ReferenceMany(targetDocument="Commit", cascade="all", simple=true) */
+	protected $commits;
 
 	public function __construct( $username = null )
 	{
@@ -22,7 +25,8 @@ class User
 		{
 			$this->setUsername( $username );
 		}
-		$this->badges = new ArrayCollection();
+		$this->badges 	= new ArrayCollection();
+		$this->commits 	= new ArrayCollection();
 	}
 
 	/**
@@ -63,6 +67,17 @@ class User
     }
 
     /**
+     * Remove a badge
+     *
+     * @param \CodingPride\Document\Badge $badge
+     * @return bool
+     */
+    public function removeBadge( \CodingPride\Document\Badge $badge )
+    {
+    	return $this->badges->removeElement( $badge );
+    }
+
+    /**
      * Get badges
      *
      * @return Doctrine\Common\Collections\Collection 
@@ -70,6 +85,32 @@ class User
     public function getBadges()
     {
         return $this->badges;
+    }
+
+    /**
+     * Add commit
+     *
+     * @param \CodingPride\Document\Commit $commit
+     * @return User
+     */
+    public function addCommit( \CodingPride\Document\Commit $commit )
+    {
+    	if ( !$this->commits->contains( $commit ) )
+    	{
+    		$this->commits[] = $commit;
+    	}
+        
+        return $this;
+    }
+
+    /**
+     * Get commits
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getCommits()
+    {
+        return $this->commits;
     }
 
 	public function setUsername( $username )
