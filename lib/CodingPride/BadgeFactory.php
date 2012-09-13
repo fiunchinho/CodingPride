@@ -120,5 +120,32 @@ class BadgeFactory
 
 		return $this->inactive_badges;
 	}
-	
+
+	/**
+	 * Removes a badge from the system, taking it away from users that have it.
+	 *
+	 * @param string $badge_name The name of the badge to remove
+	 */
+	public function removeBadge( $badge_name )
+	{
+		$badge = $this
+            ->_dm
+            ->getRepository( '\CodingPride\Document\Badge' )
+            ->findOneByName( $badge_name );
+
+        if ( null === $badge )
+        {
+            throw new \InvalidArgumentException( 'The badge \'' . $badge_name . '\' does not exist' );
+        }
+
+        $users = $this->_dm->getRepository( '\CodingPride\Document\User' )->findAll();
+
+        foreach ( $users as $user )
+        {
+            $user->removeBadge( $badge );
+        }
+
+        $this->_dm->remove( $badge );
+        $this->_dm->flush();
+	}
 }

@@ -69,6 +69,79 @@ class BadgeFactoryTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals( 1, count( $inactive_badges ), 'The number of created badges is not right.' );
 	}
 
+	public function testRemoveABadge()
+	{
+		$badges_from_config = array(
+			'Badge1' => array(
+				'name' 			=> 'Badge1',
+				'conditions' 	=> array( 'condition' ),
+				'description' 	=> 'badge description'
+			),
+			'Badge2' => array(
+				'name' 			=> 'Badge2',
+				'conditions' 	=> array( 'condition2' ),
+				'description' 	=> 'badge2 description'
+			)
+		);
+
+		$user = $this->getMock( '\CodingPride\Document\User', array( 'removeBadge' ) );
+		$user->expects( $this->once() )->method( 'removeBadge' );
+
+		$badge = $this->getMock( '\CodingPride\Document\Badge' );
+
+		$badge_repository = $this->getMock( '\CodingPride\Document\BadgeRepository', array( 'findOneByName' ), array(), '', false );
+		$badge_repository->expects( $this->once() )->method( 'findOneByName' )->will( $this->returnValue( $badge ) );
+
+		$user_repository = $this->getMock( '\CodingPride\Document\UserRepository', array( 'findAll' ), array(), '', false );
+		$user_repository->expects( $this->once() )->method( 'findAll' )->will( $this->returnValue( array( $user ) ) );
+
+		$dm = $this->getMock( '\CodingPride\Tests\DocumentManager', array( 'getRepository', 'remove', 'flush' ), array(), '', false );
+		$dm->expects( $this->at( 0 ) )->method( 'getRepository' )->will( $this->returnValue( $badge_repository ) );		
+		$dm->expects( $this->at( 1 ) )->method( 'getRepository' )->will( $this->returnValue( $user_repository ) );		
+		$dm->expects( $this->at( 2 ) )->method( 'remove' )->with( $badge );
+		$dm->expects( $this->at( 3 ) )->method( 'flush' );
+
+		$badge_factory = new \CodingPride\BadgeFactory( $dm, $badges_from_config );
+		$badge_factory->removeBadge( 'Badge1' );
+	}
+
+	public function testRemoveABadgeThatDoesNotExists()
+	{
+		$badges_from_config = array(
+			'Badge1' => array(
+				'name' 			=> 'Badge1',
+				'conditions' 	=> array( 'condition' ),
+				'description' 	=> 'badge description'
+			),
+			'Badge2' => array(
+				'name' 			=> 'Badge2',
+				'conditions' 	=> array( 'condition2' ),
+				'description' 	=> 'badge2 description'
+			)
+		);
+
+		$user = $this->getMock( '\CodingPride\Document\User', array( 'removeBadge' ) );
+		$user->expects( $this->never() )->method( 'removeBadge' );
+
+		$badge = $this->getMock( '\CodingPride\Document\Badge' );
+
+		$badge_repository = $this->getMock( '\CodingPride\Document\BadgeRepository', array( 'findOneByName' ), array(), '', false );
+		$badge_repository->expects( $this->once() )->method( 'findOneByName' );
+
+		$user_repository = $this->getMock( '\CodingPride\Document\UserRepository', array( 'findAll' ), array(), '', false );
+		$user_repository->expects( $this->never() )->method( 'findAll' );
+
+		$dm = $this->getMock( '\CodingPride\Tests\DocumentManager', array( 'getRepository', 'remove', 'flush' ), array(), '', false );
+		$dm->expects( $this->once() )->method( 'getRepository' )->will( $this->returnValue( $badge_repository ) );		
+		$dm->expects( $this->never() )->method( 'remove' );
+		$dm->expects( $this->never() )->method( 'flush' );
+
+		$this->setExpectedException( 'InvalidArgumentException' );
+
+		$badge_factory = new \CodingPride\BadgeFactory( $dm, $badges_from_config );
+		$badge_factory->removeBadge( 'Badge3' );
+	}
+
 	/**
      * Creates an DocumentManager for testing purposes.
      *

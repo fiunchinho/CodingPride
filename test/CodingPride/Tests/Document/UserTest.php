@@ -67,4 +67,38 @@ class UserTest extends \PHPUnit_Framework_TestCase
 		$user->setUsername( $name2 = 'FakeUser2' );
 		$this->assertEquals( $user->getUsername(), $name2, 'The name getter/setter does not work.' );
 	}
+
+	public function testBadgesAreGivenAndRemovedCorrectly()
+	{
+		$badge 			= $this->getMock( '\CodingPride\Document\Badge' );
+		$badge2			= $this->getMock( '\CodingPride\Document\Badge' );
+		$badge3			= $this->getMock( '\CodingPride\Document\Badge' );
+
+		$user 			= new \CodingPride\Document\User();
+		$user->addBadge( $badge );
+		$user->addBadge( $badge2 );
+		$user->addBadge( $badge3 );
+		$user->addBadge( $badge3 );
+
+		$this->assertEquals( 3, count( $user->getBadges() ), 'The number of badges added is not correct.' );
+
+		$user->removeBadge( $badge );
+
+		$this->assertEquals( 2, count( $user->getBadges() ), 'The badge was not removed from the user.' );
+	}
+
+	public function testCommitsAreAddedCorrectly()
+	{
+		$commit 			= $this->getMock( '\CodingPride\Document\Commit' );
+		$commit2			= $this->getMock( '\CodingPride\Document\Commit' );
+		$commit3			= $this->getMock( '\CodingPride\Document\Commit' );
+
+		$user 			= new \CodingPride\Document\User();
+		$user->addCommit( $commit );
+		$user->addCommit( $commit2 );
+		$user->addCommit( $commit3 );
+		$user->addCommit( $commit3 );
+
+		$this->assertEquals( 3, count( $user->getCommits() ), 'The number of commits added is not correct.' );
+	}
 }

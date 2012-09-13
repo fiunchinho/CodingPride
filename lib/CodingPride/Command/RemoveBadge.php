@@ -5,6 +5,8 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+use CodingPride\BadgeFactory;
+
 class RemoveBadge extends CodingPride
 {
     protected function configure()
@@ -27,33 +29,18 @@ class RemoveBadge extends CodingPride
         $this->config = $this->getConfig();
         $this->createDatabaseManager( $this->config );
 
-        $badge_name = $input->getArgument( 'badge_name' );
-
-        $badge = $this
-            ->dm
-            ->getRepository( '\CodingPride\Document\Badge' )
-            ->findOneByName( $badge_name );
-
-        if ( null === $badge )
+        try
         {
-            $output->writeln('<error>The badge \'' . $badge_name . '\' does not exist </error>');
+            $badge_factory  = new BadgeFactory( $this->dm, $this->config['badges'] );
+            $badge_factory->removeBadge( $input->getArgument( 'badge_name' ) );
+
+            $output->writeln('');
+            $output->writeln('<comment>The badge \'' . $input->getArgument( 'badge_name' ) . '\' has been removed from the system</comment>');
+        }
+        catch ( \InvalidArgumentException $e )
+        {
+            $output->writeln('<error>The badge \'' . $input->getArgument( 'badge_name' ) . '\' does not exist </error>');
             return;
         }
-
-        $users = $this
-            ->dm
-            ->getRepository( '\CodingPride\Document\User' )
-            ->findAll();
-
-        foreach ( $users as $user )
-        {
-            $user->removeBadge( $badge );
-        }
-
-        $this->dm->remove( $badge );
-        $this->dm->flush();
-
-        $output->writeln('');
-        $output->writeln('<comment>The badge \'' . $badge_name . '\' has been removed from the system</comment>');
     }
 }

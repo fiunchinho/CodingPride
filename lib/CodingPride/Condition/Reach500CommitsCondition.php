@@ -3,5 +3,5 @@ namespace CodingPride\Condition;
 
 class Reach500CommitsCondition extends NumberOfCommitsCondition
 {
-	public $number_to_reach = 500;
+	protected $number_to_reach = 500;
 }
